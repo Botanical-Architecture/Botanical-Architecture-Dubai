@@ -8,6 +8,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
 
 <style>
+
 body {
     margin: 0;
     font-family: 'Inter', sans-serif;
@@ -34,7 +35,6 @@ nav {
 header {
     height: 100vh;
     display: flex;
-    flex-direction: column;
     justify-content: center;
     align-items: center;
     text-align: center;
@@ -51,14 +51,16 @@ header::after {
 
 header h1 {
     position: relative;
-    font-size: 54px;
+    font-size: 56px;
     font-weight: 300;
     color: white;
+    letter-spacing: 2px;
 }
 
 header p {
     position: relative;
     color: #ddd;
+    margin-top: 10px;
 }
 
 /* SECTIONS */
@@ -72,104 +74,129 @@ section {
     text-align: center;
 }
 
-/* GRID */
+.center h2 {
+    font-weight: 300;
+}
+
+/* WORK */
 .grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 40px;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 35px;
     margin-top: 60px;
 }
 
 .card {
     background: white;
+    overflow: hidden;
 }
 
 .card img {
     width: 100%;
-    height: 320px;
+    height: 300px;
     object-fit: cover;
 }
 
-/* POPUP (clean luxury style) */
-.popup {
-    position: fixed;
-    inset: 0;
-    display: none;
-    justify-content: center;
-    align-items: center;
-    background: rgba(255,255,255,0.65);
-    backdrop-filter: blur(18px);
-    z-index: 9999;
-}
-
-.popup-inner {
-    text-align: center;
-    max-width: 420px;
-    width: 90%;
-}
-
-.popup-title {
-    font-size: 22px;
-    font-weight: 300;
-    margin-bottom: 10px;
-}
-
-.popup-sub {
+.card div {
+    padding: 14px;
     font-size: 13px;
-    opacity: 0.6;
-    margin-bottom: 25px;
+    opacity: 0.8;
 }
 
-.popup input {
-    width: 100%;
-    padding: 12px 0;
-    border: none;
-    border-bottom: 1px solid #999;
-    background: transparent;
-    text-align: center;
-    outline: none;
-}
-
-.popup button {
-    margin-top: 25px;
-    background: none;
-    border: none;
-    font-size: 13px;
-    letter-spacing: 1px;
-    cursor: pointer;
-}
-
-/* CONFIGURATOR */
-#configurator {
-    display: none;
-    padding: 100px 10%;
+/* SLIDER */
+.scope {
+    padding: 140px 10%;
     text-align: center;
 }
 
 .slider {
     width: 100%;
-    max-width: 600px;
+    max-width: 650px;
+    margin-top: 30px;
+    accent-color: #111;
 }
 
-.label {
-    font-size: 22px;
+.scope-title {
+    font-size: 26px;
+    margin-top: 25px;
+    font-weight: 300;
+}
+
+.scope-desc {
+    max-width: 650px;
+    margin: 10px auto 0;
+    opacity: 0.7;
+    line-height: 1.6;
+}
+
+.scope img {
+    width: 100%;
+    max-width: 700px;
+    height: 420px;
+    object-fit: cover;
     margin-top: 30px;
 }
 
-.desc {
-    opacity: 0.7;
-    margin-top: 10px;
-    max-width: 600px;
-    margin-left: auto;
-    margin-right: auto;
+/* POPUP (small floating) */
+.popup {
+    position: fixed;
+    bottom: 25px;
+    right: 25px;
+    display: none;
+    z-index: 9999;
 }
 
-button.submit {
-    margin-top: 40px;
-    padding: 12px 20px;
-    border: 1px solid #111;
-    background: transparent;
+.popup-inner {
+    width: 260px;
+    background: rgba(255,255,255,0.92);
+    backdrop-filter: blur(18px);
+    border: 1px solid rgba(0,0,0,0.08);
+    padding: 16px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+    text-align: center;
+    position: relative;
+}
+
+.close-btn {
+    position: absolute;
+    top: 6px;
+    right: 8px;
+    background: none;
+    border: none;
+    font-size: 16px;
     cursor: pointer;
+    opacity: 0.5;
+}
+
+.popup-title {
+    font-size: 15px;
+    font-weight: 400;
+}
+
+.popup-sub {
+    font-size: 12px;
+    opacity: 0.6;
+    margin: 6px 0 10px;
+}
+
+.popup input {
+    width: 100%;
+    border: none;
+    border-bottom: 1px solid #aaa;
+    padding: 8px 0;
+    text-align: center;
+    background: transparent;
+    outline: none;
+    font-size: 13px;
+}
+
+.popup button {
+    margin-top: 10px;
+    background: none;
+    border: none;
+    font-size: 12px;
+    cursor: pointer;
+    opacity: 0.7;
 }
 
 /* FOOTER */
@@ -179,6 +206,7 @@ footer {
     font-size: 12px;
     opacity: 0.6;
 }
+
 </style>
 </head>
 
@@ -198,17 +226,36 @@ footer {
 
 <section>
     <div class="center">
-        <h2>Designing living environments</h2>
-        <p>We create sculptural botanical installations for architectural spaces.</p>
+        <h2>Designing living environments through nature</h2>
+        <p>We create sculptural botanical installations for architectural spaces, each designed uniquely per project.</p>
     </div>
 </section>
 
 <section>
     <div class="grid">
-        <div class="card"><img src="work1.jpg"></div>
-        <div class="card"><img src="work2.jpg"></div>
-        <div class="card"><img src="work3.jpg"></div>
+        <div class="card"><img src="work1.jpg"><div>Living Installation I</div></div>
+        <div class="card"><img src="work2.jpg"><div>Terrarium Series</div></div>
+        <div class="card"><img src="work3.jpg"><div>Desert Bloom Concept</div></div>
+        <div class="card"><img src="work4.jpg"><div>Private Commission</div></div>
     </div>
+</section>
+
+<!-- SLIDER -->
+<section class="scope">
+
+    <h2>Design Scope</h2>
+    <p>Move through installation scales from intimate arrangements to architectural environments.</p>
+
+    <input type="range" min="1" max="8" value="1" id="slider" class="slider">
+
+    <div class="scope-title" id="title">AED 2,000</div>
+
+    <div class="scope-desc" id="desc">
+        Micro botanical installation for small interior accents.
+    </div>
+
+    <img id="image" src="img1.jpg">
+
 </section>
 
 <footer>
@@ -217,42 +264,35 @@ footer {
 
 <!-- POPUP -->
 <div id="popup" class="popup">
+
     <div class="popup-inner">
+
+        <button class="close-btn" onclick="closePopup()">×</button>
+
         <div class="popup-title">Request Proposal</div>
-        <div class="popup-sub">Enter your email to begin</div>
+        <div class="popup-sub">Enter your email</div>
 
         <input type="email" id="email" placeholder="Email address">
 
         <button onclick="start()">Continue</button>
+
     </div>
-</div>
 
-<!-- CONFIGURATOR -->
-<div id="configurator">
-    <h2>Design Scope</h2>
-
-    <input type="range" min="1" max="8" value="1" class="slider" id="budget">
-
-    <div class="label" id="title">AED 2,000</div>
-    <div class="desc" id="desc">Micro botanical installation</div>
-
-    <img id="image" src="img1.jpg" style="width:100%;max-width:700px;margin-top:30px;">
-
-    <br>
-
-    <button class="submit" onclick="submit()">Request Proposal</button>
 </div>
 
 <script>
 
 let email = "";
 
-/* popup after 10 seconds */
+/* popup delay */
 setTimeout(() => {
-    document.getElementById("popup").style.display = "flex";
+    document.getElementById("popup").style.display = "block";
 }, 10000);
 
-/* email submit */
+function closePopup() {
+    document.getElementById("popup").style.display = "none";
+}
+
 function start() {
     const val = document.getElementById("email").value;
 
@@ -265,22 +305,21 @@ function start() {
     localStorage.setItem("email", email);
 
     document.getElementById("popup").style.display = "none";
-    document.getElementById("configurator").style.display = "block";
 }
 
-/* pricing system */
+/* slider data */
 const data = {
-    1:["AED 2,000","Micro botanical installation","img1.jpg"],
-    2:["AED 5,000","Small spatial arrangement","img2.jpg"],
-    3:["AED 10,000","Studio floral composition","img3.jpg"],
-    4:["AED 15,000","Signature installation","img4.jpg"],
-    5:["AED 20,000","Architectural floral design","img5.jpg"],
-    6:["AED 25,000","Large scale installation","img6.jpg"],
-    7:["AED 35,000","Immersive botanical space","img7.jpg"],
-    8:["AED 50,000+","Full spatial transformation","img8.jpg"]
+    1:["AED 2,000","Micro botanical installation for intimate spaces.","img1.jpg"],
+    2:["AED 5,000","Light floral spatial arrangement.","img2.jpg"],
+    3:["AED 10,000","Studio-scale botanical composition.","img3.jpg"],
+    4:["AED 15,000","Signature sculptural installation.","img4.jpg"],
+    5:["AED 20,000","Architectural floral integration.","img5.jpg"],
+    6:["AED 25,000","Large-scale environmental installation.","img6.jpg"],
+    7:["AED 35,000","Immersive botanical spatial transformation.","img7.jpg"],
+    8:["AED 50,000+","Full architectural botanical environment.","img8.jpg"]
 };
 
-const slider = document.getElementById("budget");
+const slider = document.getElementById("slider");
 const title = document.getElementById("title");
 const desc = document.getElementById("desc");
 const image = document.getElementById("image");
@@ -291,20 +330,6 @@ slider.oninput = function() {
     desc.innerText = v[1];
     image.src = v[2];
 };
-
-/* submit */
-function submit() {
-    const value = data[slider.value];
-
-    alert(
-        "Proposal Request Sent\n\n" +
-        "Email: " + email + "\n" +
-        "Budget: " + value[0] + "\n" +
-        "Scope: " + value[1]
-    );
-
-    console.log({ email, selection: value });
-}
 
 </script>
 
