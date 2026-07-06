@@ -1,358 +1,303 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Botanical Dubai</title>
-    
-    <!-- Clean, highly readable typography -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;1,400&display=swap" rel="stylesheet">
-    
-    <style>
-        :root {
-            --bg: #0b0c0b;
-            --text: #e5e7e5;
-            --text-muted: #788576;
-            --accent: #94a891;
-            --line: rgba(255, 255, 255, 0.08);
-            --font-sans: 'Inter', sans-serif;
-            --font-serif: 'Playfair Display', serif;
-        }
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Botanical Architecture Dubai</title>
 
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
 
-        body {
-            background-color: var(--bg);
-            color: var(--text);
-            font-family: var(--font-sans);
-            font-size: 1rem;
-            line-height: 1.7;
-            letter-spacing: -0.01em;
-            -webkit-font-smoothing: antialiased;
-        }
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
 
-        /* Navigation */
-        nav {
-            position: fixed;
-            top: 0;
-            width: 100%;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 2rem 6%;
-            z-index: 100;
-            background: linear-gradient(to bottom, var(--bg) 40%, transparent);
-            backdrop-filter: blur(8px);
-        }
+    body {
+        font-family: 'Inter', sans-serif;
+        background: #f6f5f2;
+        color: #111;
+        line-height: 1.6;
+        overflow-x: hidden;
+    }
 
-        .logo {
-            font-weight: 500;
-            font-size: 1rem;
-            letter-spacing: 0.05em;
-            text-decoration: none;
-            color: var(--text);
-        }
+    /* NAV */
+    nav {
+        position: fixed;
+        top: 0;
+        width: 100%;
+        padding: 18px 40px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background: rgba(246,245,242,0.7);
+        backdrop-filter: blur(12px);
+        z-index: 1000;
+        font-size: 13px;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+    }
 
-        .nav-links {
-            display: flex;
-            gap: 2.5rem;
-            list-style: none;
-        }
+    nav a {
+        margin-left: 20px;
+        text-decoration: none;
+        color: #111;
+        opacity: 0.8;
+    }
 
-        .nav-links a {
-            font-size: 0.85rem;
-            text-decoration: none;
-            color: var(--text-muted);
-            transition: color 0.2s ease;
-        }
+    /* HERO */
+    header {
+        height: 100vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        position: relative;
+        background: url('hero.jpg') center/cover no-repeat;
+    }
 
-        .nav-links a:hover {
-            color: var(--text);
-        }
+    header::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: rgba(0,0,0,0.35);
+    }
 
-        /* Hero Layout */
-        .hero {
-            min-height: 85vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            padding: 0 6%;
-            border-bottom: 1px solid var(--line);
-        }
+    header h1 {
+        position: relative;
+        font-size: 54px;
+        font-weight: 300;
+        letter-spacing: 3px;
+        color: white;
+        opacity: 0;
+        transform: translateY(20px);
+        animation: fadeUp 1.2s ease forwards;
+    }
 
-        h1 {
-            font-family: var(--font-serif);
-            font-size: clamp(2.5rem, 6vw, 5rem);
-            font-weight: 400;
-            line-height: 1.1;
-            margin-bottom: 2.5rem;
-            max-width: 900px;
-        }
+    header p {
+        position: relative;
+        margin-top: 12px;
+        color: #eaeaea;
+        font-weight: 300;
+        opacity: 0;
+        transform: translateY(20px);
+        animation: fadeUp 1.6s ease forwards;
+    }
 
-        .hero-details {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            gap: 2rem;
-            max-width: 900px;
+    @keyframes fadeUp {
+        to {
+            opacity: 1;
+            transform: translateY(0);
         }
+    }
 
-        .location {
-            font-size: 0.8rem;
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
-            color: var(--text-muted);
-            margin-top: 0.5rem;
-        }
+    /* SECTIONS */
+    section {
+        padding: 120px 10%;
+    }
 
-        .introduction {
-            font-size: 1.25rem;
-            color: var(--accent);
-            max-width: 550px;
-            font-weight: 300;
-        }
+    .intro {
+        max-width: 780px;
+        margin: auto;
+        text-align: center;
+    }
 
-        /* Standard Section Framing */
-        section {
-            padding: 6rem 6%;
-            border-bottom: 1px solid var(--line);
-        }
+    .intro h2 {
+        font-weight: 300;
+        font-size: 28px;
+        margin-bottom: 20px;
+        letter-spacing: 1px;
+    }
 
-        h2 {
-            font-family: var(--font-serif);
-            font-size: 2rem;
-            font-weight: 400;
-            margin-bottom: 3rem;
-        }
+    .intro p {
+        font-weight: 300;
+        color: #333;
+    }
 
-        /* Layout Grid for Capabilities */
-        .services-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 4rem;
-        }
+    /* GRID */
+    .grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 40px;
+        margin-top: 70px;
+    }
 
-        .service-item h3 {
-            font-size: 1.15rem;
-            font-weight: 500;
-            margin-bottom: 1rem;
-            color: var(--text);
-        }
+    .card {
+        background: white;
+        overflow: hidden;
+        opacity: 0;
+        transform: translateY(40px);
+        transition: all 0.9s cubic-bezier(0.2, 0.8, 0.2, 1);
+    }
 
-        .service-item p {
-            color: var(--text-muted);
-            font-size: 0.95rem;
-        }
+    .card img {
+        width: 100%;
+        height: 320px;
+        object-fit: cover;
+        filter: grayscale(10%);
+    }
 
-        /* The Botanical Bar Spotlight */
-        .event-container {
-            display: grid;
-            grid-template-columns: 1.1fr 0.9fr;
-            gap: 6rem;
-            align-items: center;
-        }
+    .card div {
+        padding: 18px;
+    }
 
-        .event-details p {
-            font-size: 1.1rem;
-            margin-bottom: 1.5rem;
-            color: #d1d4d1;
-        }
+    .card h3 {
+        font-weight: 400;
+        margin-bottom: 8px;
+        letter-spacing: 0.5px;
+    }
 
-        .meta-list {
-            margin-top: 3rem;
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 1.5rem;
-            border-top: 1px solid var(--line);
-            padding-top: 2rem;
-        }
+    .card p {
+        font-size: 14px;
+        opacity: 0.8;
+    }
 
-        .meta-item span {
-            display: block;
-            font-size: 0.75rem;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            color: var(--text-muted);
-            margin-bottom: 0.25rem;
-        }
+    /* ACTIVE STATE (scroll reveal) */
+    .card.show {
+        opacity: 1;
+        transform: translateY(0);
+    }
 
-        .meta-item p {
-            font-size: 1.2rem;
-            font-weight: 400;
-            color: var(--text);
-            margin: 0;
-        }
+    .reveal {
+        opacity: 0;
+        transform: translateY(40px);
+        transition: all 1s ease;
+    }
 
-        .event-image {
-            height: 480px;
-            background: linear-gradient(rgba(0,0,0,0.1), rgba(0,0,0,0.3)),
-                        url('https://images.unsplash.com/photo-1545167622-3a6ac756afa4?q=80&w=1200') center/cover no-repeat;
-            filter: grayscale(20%) brightness(0.8);
-        }
+    .reveal.show {
+        opacity: 1;
+        transform: translateY(0);
+    }
 
-        /* Simplified Ticker */
-        .ticker-section {
-            padding: 3rem 0;
-            background-color: #0e100e;
-            overflow: hidden;
-            border-bottom: 1px solid var(--line);
-        }
+    /* CONTACT */
+    .contact-box {
+        max-width: 700px;
+        margin: auto;
+        text-align: center;
+        padding: 40px;
+        border: 1px solid #ddd;
+        background: #fff;
+    }
 
-        .ticker-wrap {
-            display: flex;
-            width: max-content;
-            animation: loop 20s linear infinite;
-        }
+    footer {
+        text-align: center;
+        padding: 60px;
+        font-size: 13px;
+        opacity: 0.6;
+    }
 
-        .ticker-phrase {
-            font-size: 1.2rem;
-            font-family: var(--font-serif);
-            font-style: italic;
-            color: var(--text-muted);
-            padding: 0 4rem;
-        }
-
-        @keyframes loop {
-            0% { transform: translate3d(0, 0, 0); }
-            100% { transform: translate3d(-50%, 0, 0); }
-        }
-
-        /* Clean Footer */
-        footer {
-            padding: 5rem 6%;
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            gap: 4rem;
-        }
-
-        .footer-brand h4 {
-            font-size: 1rem;
-            font-weight: 500;
-            margin-bottom: 0.5rem;
-        }
-
-        .footer-brand p {
-            font-size: 0.9rem;
-            color: var(--text-muted);
-        }
-
-        .footer-contact a {
-            display: block;
-            color: var(--text);
-            text-decoration: none;
-            font-size: 1.1rem;
-            margin-bottom: 0.5rem;
-        }
-
-        .footer-contact span {
-            font-size: 0.9rem;
-            color: var(--text-muted);
-        }
-
-        /* Responsiveness */
-        @media (max-width: 900px) {
-            nav .nav-links { display: none; }
-            .hero-details, .event-container { grid-template-columns: 1fr; gap: 2rem; }
-            .event-image { height: 300px; }
-            .meta-list { grid-template-columns: 1fr; gap: 1rem; }
-            footer { flex-direction: column; gap: 2rem; }
-        }
-    </style>
+    /* MOBILE */
+    @media(max-width:768px){
+        header h1 { font-size: 34px; }
+        section { padding: 80px 20px; }
+        nav { padding: 15px 20px; }
+    }
+</style>
 </head>
+
 <body>
 
-    <nav>
-        <a href="#" class="logo">Botanical Dubai</a>
-        <ul class="nav-links">
-            <li><a href="#about">Studio</a></li>
-            <li><a href="#services">Services</a></li>
-            <li><a href="#bar">The Botanical Bar</a></li>
-        </ul>
-    </nav>
+<nav>
+    <div>Botanical Architecture</div>
+    <div>
+        <a href="#about">About</a>
+        <a href="#work">Work</a>
+        <a href="#pricing">Pricing</a>
+        <a href="#contact">Contact</a>
+    </div>
+</nav>
 
-    <header class="hero">
-        <h1>We balance the raw texture of concrete structures with living moss and minimalist flora.</h1>
-        <div class="hero-details">
-            <div class="location">Dubai, UAE // Studio Profile</div>
-            <div class="introduction">
-                A botanical design studio moving away from traditional floristry to create living art installations, spatial activations, and experiential concepts.
-            </div>
-        </div>
-    </header>
+<header>
+    <h1>Botanical Architecture</h1>
+    <p>Floral installations · Spatial design · Living systems</p>
+</header>
 
-    <section id="services">
-        <h2>Services</h2>
-        <div class="services-grid">
-            <div class="service-item">
-                <h3>Installations</h3>
-                <p>Bespoke green builds and large-scale botanical set designs tailored for environments, brands, and collaborative spaces.</p>
-            </div>
-            <div class="service-item">
-                <h3>Pop-ups</h3>
-                <p>Temporary experiential environments that reframe physical commercial retail through a natural lens.</p>
-            </div>
-            <div class="service-item">
-                <h3>Workshops</h3>
-                <p>Curated design sessions focusing on hands-on floral construction, botanical styling, and community connection.</p>
-            </div>
-        </div>
-    </section>
+<section id="about">
+    <div class="intro reveal">
+        <h2>Designing living architecture through nature</h2>
+        <p>
+            We create immersive botanical environments that merge spatial design with living systems.
+            Each installation is tailored, sculptural, and designed to exist between architecture and nature.
+        </p>
+    </div>
+</section>
 
-    <section id="bar">
-        <h2>The Botanical Bar</h2>
-        <div class="event-container">
-            <div class="event-details">
-                <p>Our current spatial activation is <em>Midsummer Florals</em>, an interactive design pop-up hosted in the minimalist setting of Vera Beauty and Wellness in Jumeirah.</p>
-                <p>Guests are invited to step up to the bar, select curated raw stems, and construct their own custom bouquet. The experience is accompanied by specialty matcha pairings.</p>
-                
-                <div class="meta-list">
-                    <div class="meta-item">
-                        <span>Experience</span>
-                        <p>100 AED</p>
-                    </div>
-                    <div class="meta-item">
-                        <span>Pairing</span>
-                        <p>Page N Cafe</p>
-                    </div>
-                    <div class="meta-item">
-                        <span>Location</span>
-                        <p>Jumeirah</p>
-                    </div>
-                </div>
-            </div>
-            <div class="event-image"></div>
-        </div>
-    </section>
-
-    <div class="ticker-section">
-        <div class="ticker-wrap">
-            <div class="ticker-phrase">Touch Moss</div>
-            <div class="ticker-phrase">Nourish to Flourish</div>
-            <div class="ticker-phrase">Grow Towards the Light</div>
-            <!-- Duplicate for seamless loop -->
-            <div class="ticker-phrase">Touch Moss</div>
-            <div class="ticker-phrase">Nourish to Flourish</div>
-            <div class="ticker-phrase">Grow Towards the Light</div>
-        </div>
+<section id="work">
+    <div class="intro reveal">
+        <h2>Selected Work</h2>
     </div>
 
-    <footer>
-        <div class="footer-brand">
-            <h4>Botanical Dubai</h4>
-            <p>© 2026. All rights reserved.</p>
+    <div class="grid">
+
+        <div class="card">
+            <img src="work1.jpg">
+            <div>
+                <h3>Living Installation I</h3>
+                <p>Spatial botanical intervention for luxury interior.</p>
+            </div>
         </div>
-        <div class="footer-contact">
-            <a href="mailto:studio@botanical-dubai.com">studio@botanical-dubai.com</a>
-            <span>@Botanical.Dubai</span>
+
+        <div class="card">
+            <img src="work2.jpg">
+            <div>
+                <h3>Terrarium Series</h3>
+                <p>Micro-ecosystem design for curated environments.</p>
+            </div>
         </div>
-    </footer>
+
+        <div class="card">
+            <img src="work3.jpg">
+            <div>
+                <h3>Desert Bloom Concept</h3>
+                <p>Large-scale floral architecture inspired by arid landscapes.</p>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+<!-- PRICING PLACEHOLDER -->
+<section id="pricing">
+    <div class="intro reveal">
+        <h2>Pricing & Commissions</h2>
+        <p>
+            Custom installations are priced based on scale, materials, and spatial complexity.
+            A full proposal deck is available upon request.
+        </p>
+    </div>
+</section>
+
+<section id="contact">
+    <div class="contact-box reveal">
+        <h2>Contact</h2>
+        <p style="margin-top:10px;">
+            Collaborations & commissions<br><br>
+            <strong>hello@botanicalarchitecture.com</strong>
+        </p>
+    </div>
+</section>
+
+<footer>
+    © 2026 Botanical Architecture Dubai
+</footer>
+
+<script>
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if(entry.isIntersecting){
+                entry.target.classList.add('show');
+            }
+        });
+    }, {
+        threshold: 0.12
+    });
+
+    document.querySelectorAll('.reveal, .card').forEach(el => {
+        observer.observe(el);
+    });
+</script>
 
 </body>
 </html>
