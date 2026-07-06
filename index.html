@@ -23,10 +23,9 @@ nav {
     padding: 18px 40px;
     display: flex;
     justify-content: space-between;
-    align-items: center;
     font-size: 13px;
     letter-spacing: 1px;
-    background: rgba(246,245,242,0.8);
+    background: rgba(246,245,242,0.85);
     backdrop-filter: blur(10px);
     z-index: 1000;
 }
@@ -60,7 +59,6 @@ header h1 {
 header p {
     position: relative;
     color: #ddd;
-    margin-top: 10px;
 }
 
 /* SECTIONS */
@@ -84,15 +82,6 @@ section {
 
 .card {
     background: white;
-    overflow: hidden;
-    transform: translateY(30px);
-    opacity: 0;
-    transition: all 0.8s ease;
-}
-
-.card.show {
-    transform: translateY(0);
-    opacity: 1;
 }
 
 .card img {
@@ -101,43 +90,85 @@ section {
     object-fit: cover;
 }
 
-.card div {
-    padding: 18px;
-}
-
-/* POPUP */
+/* POPUP (clean luxury style) */
 .popup {
     position: fixed;
     inset: 0;
-    background: rgba(0,0,0,0.6);
     display: none;
     justify-content: center;
     align-items: center;
+    background: rgba(255,255,255,0.65);
+    backdrop-filter: blur(18px);
     z-index: 9999;
 }
 
-.popup-box {
-    background: white;
-    padding: 40px;
-    width: 90%;
+.popup-inner {
+    text-align: center;
     max-width: 420px;
+    width: 90%;
+}
+
+.popup-title {
+    font-size: 22px;
+    font-weight: 300;
+    margin-bottom: 10px;
+}
+
+.popup-sub {
+    font-size: 13px;
+    opacity: 0.6;
+    margin-bottom: 25px;
+}
+
+.popup input {
+    width: 100%;
+    padding: 12px 0;
+    border: none;
+    border-bottom: 1px solid #999;
+    background: transparent;
+    text-align: center;
+    outline: none;
+}
+
+.popup button {
+    margin-top: 25px;
+    background: none;
+    border: none;
+    font-size: 13px;
+    letter-spacing: 1px;
+    cursor: pointer;
+}
+
+/* CONFIGURATOR */
+#configurator {
+    display: none;
+    padding: 100px 10%;
     text-align: center;
 }
 
-.popup-box input {
+.slider {
     width: 100%;
-    padding: 12px;
-    margin-top: 20px;
-    border: 1px solid #ccc;
+    max-width: 600px;
 }
 
-.popup-box button {
-    margin-top: 20px;
-    width: 100%;
-    padding: 12px;
-    background: black;
-    color: white;
-    border: none;
+.label {
+    font-size: 22px;
+    margin-top: 30px;
+}
+
+.desc {
+    opacity: 0.7;
+    margin-top: 10px;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+button.submit {
+    margin-top: 40px;
+    padding: 12px 20px;
+    border: 1px solid #111;
+    background: transparent;
     cursor: pointer;
 }
 
@@ -155,7 +186,7 @@ footer {
 
 <nav>
     <div>Botanical Architecture</div>
-    <div>About / Work / Contact</div>
+    <div>Work / About / Contact</div>
 </nav>
 
 <header>
@@ -166,37 +197,17 @@ footer {
 </header>
 
 <section>
-    <div class="center reveal">
-        <h2>Designing living environments through nature</h2>
-        <p>
-            We create immersive botanical installations that merge spatial design with living systems.
-            Each project is tailored, sculptural, and built as a one-off architectural experience.
-        </p>
+    <div class="center">
+        <h2>Designing living environments</h2>
+        <p>We create sculptural botanical installations for architectural spaces.</p>
     </div>
 </section>
 
 <section>
-    <div class="center reveal">
-        <h2>Selected Work</h2>
-    </div>
-
     <div class="grid">
-
-        <div class="card">
-            <img src="work1.jpg">
-            <div>Living Installation I</div>
-        </div>
-
-        <div class="card">
-            <img src="work2.jpg">
-            <div>Terrarium Series</div>
-        </div>
-
-        <div class="card">
-            <img src="work3.jpg">
-            <div>Desert Bloom Concept</div>
-        </div>
-
+        <div class="card"><img src="work1.jpg"></div>
+        <div class="card"><img src="work2.jpg"></div>
+        <div class="card"><img src="work3.jpg"></div>
     </div>
 </section>
 
@@ -206,46 +217,95 @@ footer {
 
 <!-- POPUP -->
 <div id="popup" class="popup">
-    <div class="popup-box">
-        <h2>Request a Proposal</h2>
-        <p>Enter your email to begin your design brief.</p>
+    <div class="popup-inner">
+        <div class="popup-title">Request Proposal</div>
+        <div class="popup-sub">Enter your email to begin</div>
 
         <input type="email" id="email" placeholder="Email address">
 
-        <button onclick="submitEmail()">Continue</button>
+        <button onclick="start()">Continue</button>
     </div>
 </div>
 
+<!-- CONFIGURATOR -->
+<div id="configurator">
+    <h2>Design Scope</h2>
+
+    <input type="range" min="1" max="8" value="1" class="slider" id="budget">
+
+    <div class="label" id="title">AED 2,000</div>
+    <div class="desc" id="desc">Micro botanical installation</div>
+
+    <img id="image" src="img1.jpg" style="width:100%;max-width:700px;margin-top:30px;">
+
+    <br>
+
+    <button class="submit" onclick="submit()">Request Proposal</button>
+</div>
+
 <script>
-// scroll reveal
-const observer = new IntersectionObserver(entries => {
-    entries.forEach(entry => {
-        if(entry.isIntersecting){
-            entry.target.classList.add('show');
-        }
-    });
-});
 
-document.querySelectorAll('.card, .reveal').forEach(el => observer.observe(el));
+let email = "";
 
-// popup after 10 seconds
+/* popup after 10 seconds */
 setTimeout(() => {
     document.getElementById("popup").style.display = "flex";
 }, 10000);
 
-// handle email + redirect
-function submitEmail() {
-    const email = document.getElementById("email").value;
+/* email submit */
+function start() {
+    const val = document.getElementById("email").value;
 
-    if(!email){
-        alert("Please enter your email");
+    if(!val){
+        alert("Enter email");
         return;
     }
 
-    localStorage.setItem("userEmail", email);
+    email = val;
+    localStorage.setItem("email", email);
 
-    window.location.href = "configurator.html";
+    document.getElementById("popup").style.display = "none";
+    document.getElementById("configurator").style.display = "block";
 }
+
+/* pricing system */
+const data = {
+    1:["AED 2,000","Micro botanical installation","img1.jpg"],
+    2:["AED 5,000","Small spatial arrangement","img2.jpg"],
+    3:["AED 10,000","Studio floral composition","img3.jpg"],
+    4:["AED 15,000","Signature installation","img4.jpg"],
+    5:["AED 20,000","Architectural floral design","img5.jpg"],
+    6:["AED 25,000","Large scale installation","img6.jpg"],
+    7:["AED 35,000","Immersive botanical space","img7.jpg"],
+    8:["AED 50,000+","Full spatial transformation","img8.jpg"]
+};
+
+const slider = document.getElementById("budget");
+const title = document.getElementById("title");
+const desc = document.getElementById("desc");
+const image = document.getElementById("image");
+
+slider.oninput = function() {
+    const v = data[this.value];
+    title.innerText = v[0];
+    desc.innerText = v[1];
+    image.src = v[2];
+};
+
+/* submit */
+function submit() {
+    const value = data[slider.value];
+
+    alert(
+        "Proposal Request Sent\n\n" +
+        "Email: " + email + "\n" +
+        "Budget: " + value[0] + "\n" +
+        "Scope: " + value[1]
+    );
+
+    console.log({ email, selection: value });
+}
+
 </script>
 
 </body>
