@@ -20,10 +20,16 @@
     --olive: #6d7a4c;
     --mustard: #c69a34;
     --terracotta: #ab5334;
+    --blush: #d98f72;
     --line: rgba(34, 31, 22, 0.12);
+    --nav-h: 88px;
 }
 
 * { box-sizing: border-box; }
+
+html {
+    scroll-behavior: smooth;
+}
 
 body {
     margin: 0;
@@ -74,12 +80,22 @@ nav .wordmark {
     letter-spacing: 0;
     text-transform: none;
     color: var(--moss);
+    text-decoration: none;
 }
 
 nav .links {
+    display: flex;
+    gap: 26px;
+}
+
+nav .links a {
     color: var(--ink);
     opacity: 0.75;
+    text-decoration: none;
+    transition: opacity 0.2s ease;
 }
+
+nav .links a:hover { opacity: 1; }
 
 /* HERO */
 header {
@@ -96,6 +112,7 @@ header {
         var(--cream);
     color: var(--ink);
     padding: 140px 24px 80px;
+    scroll-margin-top: var(--nav-h);
 }
 
 header .leaf {
@@ -151,6 +168,7 @@ header p {
 section {
     padding: 120px 10%;
     position: relative;
+    scroll-margin-top: var(--nav-h);
 }
 
 .center {
@@ -283,6 +301,44 @@ canvas {
     border-radius: 24px 6px 24px 6px;
 }
 
+/* CONTACT */
+.contact-section { background: var(--paper); }
+
+.contact-card {
+    max-width: 560px;
+    margin: 50px auto 0;
+    background: var(--cream);
+    border: 1px solid var(--line);
+    border-radius: 30px 10px 30px 10px;
+    padding: 40px 36px;
+    text-align: center;
+}
+
+.contact-card .cta {
+    margin-top: 22px;
+    background: var(--moss);
+    color: var(--cream);
+    border: none;
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+    padding: 14px 30px;
+    border-radius: 999px;
+    cursor: pointer;
+}
+
+.contact-card .direct {
+    display: block;
+    margin-top: 18px;
+    font-size: 13px;
+    color: var(--moss);
+    text-decoration: none;
+    opacity: 0.85;
+}
+
+.contact-card .direct:hover { opacity: 1; text-decoration: underline; }
+
 /* POPUP */
 .popup {
     position: fixed;
@@ -293,7 +349,7 @@ canvas {
 }
 
 .popup-inner {
-    width: 270px;
+    width: 290px;
     background: var(--moss);
     color: var(--cream);
     border-radius: 30px 10px 30px 10px;
@@ -309,7 +365,7 @@ canvas {
     top: -30px;
     right: -40px;
     width: 140px;
-    opacity: 0.35;
+    opacity: 0.25;
     pointer-events: none;
 }
 
@@ -342,23 +398,53 @@ canvas {
     z-index: 1;
 }
 
-.popup input {
+.popup-step { position: relative; z-index: 1; }
+
+.popup textarea,
+.popup input[type="text"] {
     width: 100%;
-    border: none;
-    border-bottom: 1px solid rgba(246, 241, 227, 0.4);
-    padding: 8px 0;
-    text-align: center;
-    background: transparent;
+    border: 1px solid rgba(246, 241, 227, 0.35);
+    border-radius: 12px;
+    padding: 10px 12px;
+    text-align: left;
+    background: rgba(246, 241, 227, 0.08);
     outline: none;
+    font-family: 'Work Sans', sans-serif;
     font-size: 13px;
     color: var(--cream);
-    position: relative;
-    z-index: 1;
+    resize: none;
 }
 
+.popup textarea { height: 84px; }
+
+.popup textarea::placeholder,
 .popup input::placeholder { color: rgba(246, 241, 227, 0.55); }
 
-.popup button#popup-continue {
+.budget-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 10px;
+}
+
+.budget-chip {
+    background: rgba(246, 241, 227, 0.12);
+    border: 1px solid rgba(246, 241, 227, 0.3);
+    color: var(--cream);
+    font-size: 10px;
+    letter-spacing: 0.3px;
+    padding: 5px 10px;
+    border-radius: 999px;
+    cursor: pointer;
+}
+
+.budget-chip.selected {
+    background: var(--mustard);
+    color: var(--moss-deep);
+    border-color: var(--mustard);
+}
+
+.popup .primary-btn {
     margin-top: 14px;
     background: var(--mustard);
     color: var(--moss-deep);
@@ -370,8 +456,19 @@ canvas {
     padding: 10px 22px;
     border-radius: 999px;
     cursor: pointer;
-    position: relative;
-    z-index: 1;
+    width: 100%;
+}
+
+.popup .back-btn {
+    display: block;
+    margin: 10px auto 0;
+    background: none;
+    border: none;
+    color: var(--cream);
+    opacity: 0.6;
+    font-size: 11px;
+    cursor: pointer;
+    text-decoration: underline;
 }
 
 /* FOOTER */
@@ -390,11 +487,15 @@ footer {
 <body>
 
 <nav>
-    <div class="wordmark">Botanical Architecture</div>
-    <div class="links">Work / About / Contact</div>
+    <a class="wordmark" href="#top">Botanical Architecture</a>
+    <div class="links">
+        <a href="#work">Work</a>
+        <a href="#about">About</a>
+        <a href="#contact">Contact</a>
+    </div>
 </nav>
 
-<header>
+<header id="top">
     <div class="grain"></div>
     <img class="leaf" src="assets/leaf-monstera.webp" alt="" aria-hidden="true">
     <div class="content">
@@ -404,7 +505,7 @@ footer {
     </div>
 </header>
 
-<section>
+<section id="about">
     <div class="center">
         <span class="eyebrow">Our approach</span>
         <h2>Designing spatial botanical systems</h2>
@@ -412,7 +513,7 @@ footer {
     </div>
 </section>
 
-<section class="work-section">
+<section id="work" class="work-section">
     <div class="center">
         <span class="eyebrow">Selected work</span>
         <h2>Nourish to flourish</h2>
@@ -443,18 +544,32 @@ footer {
 
     <span class="eyebrow">Investment</span>
     <h2>Design Scope</h2>
-    <p>Each budget level evolves a single spatial drawing system.</p>
+    <p>Drag the slider to see how the installation grows — from a single statement plant to a full, colourful planting scheme.</p>
 
     <input type="range" min="1" max="8" value="1" id="slider" class="slider">
 
     <div class="scope-title" id="title">AED 2,000</div>
 
-    <div class="scope-desc" id="desc">Single structural lines forming spatial gesture.</div>
+    <div class="scope-desc" id="desc">One statement plant, precisely placed.</div>
 
     <div class="canvas-frame">
         <canvas id="canvas"></canvas>
     </div>
 
+</section>
+
+<section id="contact" class="contact-section">
+    <div class="center">
+        <span class="eyebrow">Get in touch</span>
+        <h2>Contact</h2>
+        <p>Tell us about your space and your budget, and we'll propose the right installation.</p>
+    </div>
+    <div class="contact-card">
+        <div class="popup-title" style="color: var(--moss-deep);">Ready to start?</div>
+        <button class="cta" id="contact-start-proposal">Start a Proposal</button>
+        <a class="direct" href="mailto:botanical.dubai@gmail.com">botanical.dubai@gmail.com</a>
+        <a class="direct" href="https://www.instagram.com/botanical.dubai" target="_blank" rel="noopener">@botanical.dubai</a>
+    </div>
 </section>
 
 <footer>
@@ -470,55 +585,128 @@ footer {
 
         <button class="close-btn" id="popup-close" data-testid="popup-close" onclick="closePopup()">×</button>
 
-        <div class="popup-title">Request Proposal</div>
-        <div class="popup-sub">Enter your email</div>
+        <!-- STEP 1: proposal -->
+        <div class="popup-step" id="popup-step-1">
+            <div class="popup-title">What's your proposal?</div>
+            <div class="popup-sub">Tell us about the space or vision you have in mind</div>
 
-        <input type="email" id="email" placeholder="Email address">
+            <textarea id="proposal" placeholder="e.g. A courtyard entrance with layered greenery..."></textarea>
 
-        <button id="popup-continue" data-testid="popup-continue" onclick="start()">Continue</button>
+            <button class="primary-btn" id="popup-next" data-testid="popup-next" onclick="nextStep()">Next</button>
+        </div>
+
+        <!-- STEP 2: budget -->
+        <div class="popup-step" id="popup-step-2" style="display:none;">
+            <div class="popup-title">What's your estimated budget?</div>
+            <div class="popup-sub">This helps us propose the right installation and price</div>
+
+            <input type="text" id="budget" placeholder="e.g. AED 20,000">
+
+            <div class="budget-chips" id="budget-chips"></div>
+
+            <button class="primary-btn" id="popup-send" data-testid="popup-send" onclick="sendProposal()">Send</button>
+            <button class="back-btn" id="popup-back" data-testid="popup-back" onclick="prevStep()">Back</button>
+        </div>
 
     </div>
+
+    <a id="mailto-link" href="#" style="display:none;" aria-hidden="true"></a>
 
 </div>
 
 <script>
 
-let email = "";
-
 /* popup delay */
-setTimeout(() => {
+setTimeout(showPopup, 10000);
+
+function showPopup() {
     document.getElementById("popup").style.display = "block";
-}, 10000);
+}
 
 function closePopup() {
     document.getElementById("popup").style.display = "none";
 }
 
-function start() {
-    const val = document.getElementById("email").value;
+function resetPopup() {
+    document.getElementById("popup-step-1").style.display = "block";
+    document.getElementById("popup-step-2").style.display = "none";
+}
 
-    if(!val){
-        alert("Enter email");
+document.getElementById("contact-start-proposal").addEventListener("click", () => {
+    resetPopup();
+    showPopup();
+});
+
+function nextStep() {
+    const proposal = document.getElementById("proposal").value;
+
+    if (!proposal) {
+        alert("Tell us a little about your proposal");
         return;
     }
 
-    email = val;
-    localStorage.setItem("email", email);
+    document.getElementById("popup-step-1").style.display = "none";
+    document.getElementById("popup-step-2").style.display = "block";
+}
+
+function prevStep() {
+    document.getElementById("popup-step-1").style.display = "block";
+    document.getElementById("popup-step-2").style.display = "none";
+}
+
+function selectBudgetChip(value, chipEl) {
+    document.getElementById("budget").value = value;
+    document.querySelectorAll(".budget-chip").forEach((c) => c.classList.remove("selected"));
+    chipEl.classList.add("selected");
+}
+
+function buildMailto(proposal, budget) {
+    const subject = "Proposal Request — Botanical Architecture";
+    const body = "Proposal:\n" + proposal + "\n\nEstimated budget: " + budget;
+    return "mailto:botanical.dubai@gmail.com?subject=" + encodeURIComponent(subject) + "&body=" + encodeURIComponent(body);
+}
+
+function sendProposal() {
+    const budget = document.getElementById("budget").value;
+
+    if (!budget) {
+        alert("Enter an estimated budget");
+        return;
+    }
+
+    const proposal = document.getElementById("proposal").value;
+    const link = document.getElementById("mailto-link");
+    link.href = buildMailto(proposal, budget);
+    link.click();
 
     document.getElementById("popup").style.display = "none";
 }
 
 /* SLIDER DATA */
 const data = {
-    1: ["AED 2,000", "Single structural lines forming spatial gesture."],
-    2: ["AED 5,000", "Lines begin to connect and define structure."],
-    3: ["AED 10,000", "Early spatial network emerges."],
-    4: ["AED 15,000", "Structure stabilises into composed system."],
-    5: ["AED 20,000", "Layering increases spatial density."],
-    6: ["AED 25,000", "Complex interconnected network forms."],
-    7: ["AED 35,000", "Dense immersive spatial structure."],
-    8: ["AED 50,000+", "Full architectural system of interconnected space."]
+    1: ["AED 2,000", "One statement plant, precisely placed."],
+    2: ["AED 5,000", "A pair of plants begin a quiet dialogue."],
+    3: ["AED 10,000", "The grouping grows, and first blooms appear."],
+    4: ["AED 15,000", "A fuller planting with layered colour."],
+    5: ["AED 20,000", "Dense planting as blooms multiply."],
+    6: ["AED 25,000", "A rich, layered botanical scene."],
+    7: ["AED 35,000", "Immersive planting in full colour."],
+    8: ["AED 50,000+", "A complete living installation, in full bloom."]
 };
+
+/* populate popup budget chips from the same tier data */
+(function populateBudgetChips() {
+    const container = document.getElementById("budget-chips");
+    Object.keys(data).forEach((key) => {
+        const price = data[key][0];
+        const chip = document.createElement("button");
+        chip.type = "button";
+        chip.className = "budget-chip";
+        chip.textContent = price;
+        chip.addEventListener("click", () => selectBudgetChip(price, chip));
+        container.appendChild(chip);
+    });
+})();
 
 const slider = document.getElementById("slider");
 const title = document.getElementById("title");
@@ -526,26 +714,83 @@ const desc = document.getElementById("desc");
 const canvas = document.getElementById("canvas");
 const ctx = canvas.getContext("2d");
 
+const bloomColors = ["#c69a34", "#ab5334", "#d98f72"];
+const leafColors = ["#3c4a2d", "#4d5c3a", "#6d7a4c"];
+
+let cssWidth = 0;
+let cssHeight = 0;
+
+function sizeCanvas() {
+    const dpr = window.devicePixelRatio || 1;
+    const rect = canvas.getBoundingClientRect();
+    cssWidth = rect.width;
+    cssHeight = rect.height;
+    canvas.width = Math.round(cssWidth * dpr);
+    canvas.height = Math.round(cssHeight * dpr);
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+}
+
+function drawPot(cx, baseY) {
+    const potWidth = 90;
+    const potHeight = 46;
+
+    ctx.beginPath();
+    ctx.moveTo(cx - potWidth / 2, baseY);
+    ctx.lineTo(cx + potWidth / 2, baseY);
+    ctx.lineTo(cx + potWidth / 2 - 10, baseY + potHeight);
+    ctx.lineTo(cx - potWidth / 2 + 10, baseY + potHeight);
+    ctx.closePath();
+    ctx.fillStyle = "#262f1a";
+    ctx.fill();
+}
+
 function draw(level) {
 
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.clearRect(0, 0, cssWidth, cssHeight);
 
-    let lines = level * 10;
+    const leafCount = Number(level);
+    const bloomCount = Math.max(0, leafCount - 2);
 
-    for (let i = 0; i < lines; i++) {
+    const cx = cssWidth / 2;
+    const baseY = cssHeight - 40;
 
-        let x1 = Math.random() * canvas.width;
-        let y1 = Math.random() * canvas.height;
+    drawPot(cx, baseY);
 
-        let x2 = x1 + (Math.random() * 140 - 70);
-        let y2 = y1 + (Math.random() * 140 - 70);
+    const tips = [];
+
+    for (let i = 0; i < leafCount; i++) {
+        const t = leafCount <= 1 ? 0.5 : i / (leafCount - 1);
+        const angleDeg = -65 + t * 130;
+        const angle = (angleDeg * Math.PI) / 180;
+        const length = 60 + leafCount * 9 + (Math.random() * 16 - 8);
+
+        const tipX = cx + Math.sin(angle) * length;
+        const tipY = baseY - Math.cos(angle) * length;
+        tips.push({ x: tipX, y: tipY, angle });
 
         ctx.beginPath();
-        ctx.moveTo(x1, y1);
-        ctx.lineTo(x2, y2);
-        ctx.strokeStyle = "rgba(60, 74, 45, 0.55)";
-        ctx.lineWidth = 1;
+        ctx.moveTo(cx, baseY);
+        ctx.lineTo(tipX, tipY);
+        ctx.strokeStyle = "#6d7a4c";
+        ctx.lineWidth = 2;
         ctx.stroke();
+
+        ctx.save();
+        ctx.translate(tipX, tipY);
+        ctx.rotate(angle);
+        ctx.beginPath();
+        ctx.ellipse(0, 0, 16, 9, 0, 0, Math.PI * 2);
+        ctx.fillStyle = leafColors[i % leafColors.length];
+        ctx.fill();
+        ctx.restore();
+    }
+
+    for (let j = 0; j < bloomCount; j++) {
+        const tip = tips[tips.length - 1 - j];
+        ctx.beginPath();
+        ctx.arc(tip.x, tip.y, 7, 0, Math.PI * 2);
+        ctx.fillStyle = bloomColors[j % bloomColors.length];
+        ctx.fill();
     }
 }
 
@@ -558,6 +803,7 @@ slider.oninput = function () {
 };
 
 // initial render
+sizeCanvas();
 draw(1);
 
 </script>
