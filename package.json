@@ -1,0 +1,13 @@
+{
+  "name": "botanical-architecture-dubai",
+  "version": "1.0.0",
+  "description": "Botanical Architecture Dubai — static site",
+  "private": true,
+  "scripts": {
+    "test": "playwright test"
+  },
+  "license": "ISC",
+  "devDependencies": {
+    "@playwright/test": "^1.61.1"
+  }
+}
