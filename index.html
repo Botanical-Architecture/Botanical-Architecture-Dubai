@@ -861,12 +861,19 @@ function drawBloom(x, y, r, color) {
     ctx.fill();
 }
 
-function drawPlant(cx, baseY, leaves, blooms, big) {
-    const potW = big ? 76 : 44;
-    const potH = big ? 36 : 20;
-    const stemLen = big ? 78 : 42;
-    const leafLen = big ? 50 : 28;
-    const leafWidth = big ? 15 : 8;
+function drawPlant(cx, baseY, leaves, blooms, big, canvasHeight) {
+    // Scale the whole plant to fill the canvas box vertically (big
+    // statement plants reach further up than small starter ones) instead
+    // of drawing at a handful of fixed pixel sizes regardless of the box.
+    const available = canvasHeight - 48;
+    const fillFraction = big ? 0.84 : 0.58;
+    const totalHeight = available * fillFraction;
+
+    const potH = totalHeight * 0.22;
+    const stemLen = totalHeight * 0.47;
+    const leafLen = totalHeight * 0.31;
+    const potW = potH * 2.2;
+    const leafWidth = leafLen * 0.29;
     const spread = big ? 210 : (leaves <= 1 ? 0 : 140);
 
     ctx.beginPath();
@@ -906,7 +913,8 @@ function drawPlant(cx, baseY, leaves, blooms, big) {
     for (let j = 0; j < blooms; j++) {
         const tipIndex = Math.min(Math.floor(((j + 1) / (blooms + 1)) * tips.length), tips.length - 1);
         const tip = tips[tipIndex];
-        drawBloom(tip.x, tip.y, big ? 8 : 6, bloomColors[j % bloomColors.length]);
+        const bloomR = leafLen * (big ? 0.19 : 0.24);
+        drawBloom(tip.x, tip.y, bloomR, bloomColors[j % bloomColors.length]);
     }
 }
 
@@ -914,12 +922,12 @@ function draw(level) {
     ctx.clearRect(0, 0, cssWidth, cssHeight);
 
     const config = plantConfig[level];
-    const baseY = cssHeight - 36;
+    const baseY = cssHeight - 24;
     const gap = cssWidth / (config.plants + 1);
 
     for (let p = 0; p < config.plants; p++) {
         const cx = gap * (p + 1);
-        drawPlant(cx, baseY, config.leaves, config.blooms, config.big);
+        drawPlant(cx, baseY, config.leaves, config.blooms, config.big, cssHeight);
     }
 }
 
