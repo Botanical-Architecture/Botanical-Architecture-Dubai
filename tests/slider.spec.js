@@ -1,24 +1,38 @@
 const { test, expect } = require('@playwright/test');
 
 const LEVELS = {
-  1: ['AED 2,000', 'One statement plant, precisely placed.'],
-  2: ['AED 5,000', 'A pair of plants begin a quiet dialogue.'],
-  3: ['AED 10,000', 'The grouping grows, and first blooms appear.'],
-  4: ['AED 15,000', 'A fuller planting with layered colour.'],
-  5: ['AED 20,000', 'Dense planting as blooms multiply.'],
-  6: ['AED 25,000', 'A rich, layered botanical scene.'],
-  7: ['AED 35,000', 'Immersive planting in full colour.'],
-  8: ['AED 50,000+', 'A complete living installation, in full bloom.'],
+  1: ['AED 2,000', 'One leaf, precisely placed.'],
+  2: ['AED 5,000', 'A second leaf joins it.'],
+  3: ['AED 10,000', 'A small plant takes shape.'],
+  4: ['AED 15,000', 'A pair of plants begin a dialogue.'],
+  5: ['AED 20,000', 'A grouping of plants, with first blooms.'],
+  6: ['AED 25,000', 'A fuller, richer grouping in bloom.'],
+  7: ['AED 35,000', 'One grand statement plant, in full colour.'],
+  8: ['AED 50,000+', 'Two grand statement plants, a complete installation.'],
 };
 
-// draw(level) renders: 1 pot fill + `level` leaf stems (stroke) + `level`
-// leaf blobs (fill) + max(0, level - 2) coloured blooms (fill) layered on
-// the last leaves — i.e. planting density and colour both grow with level.
-function expectedStrokes(level) {
-  return level;
-}
+// Mirrors the `plantConfig` table in index.html: how many potted plants are
+// drawn, how many leaves and blooms each plant gets, at every slider level.
+const PLANT_CONFIG = {
+  1: { plants: 1, leaves: 1, blooms: 0 },
+  2: { plants: 1, leaves: 2, blooms: 0 },
+  3: { plants: 1, leaves: 3, blooms: 1 },
+  4: { plants: 2, leaves: 3, blooms: 1 },
+  5: { plants: 3, leaves: 4, blooms: 2 },
+  6: { plants: 3, leaves: 5, blooms: 2 },
+  7: { plants: 1, leaves: 8, blooms: 3 },
+  8: { plants: 2, leaves: 8, blooms: 3 },
+};
+
+// Each plant draws: 1 pot fill + 1 stem stroke, plus per leaf (1 fill + 1
+// vein stroke) and per bloom (2 fills: outer + center).
 function expectedFills(level) {
-  return 1 + level + Math.max(0, level - 2);
+  const c = PLANT_CONFIG[level];
+  return c.plants * (1 + c.leaves + c.blooms * 2);
+}
+function expectedStrokes(level) {
+  const c = PLANT_CONFIG[level];
+  return c.plants * (1 + c.leaves);
 }
 
 test.beforeEach(async ({ page }) => {
@@ -46,7 +60,7 @@ test('slider attributes constrain input to the 8 defined levels', async ({ page 
   await expect(slider).toHaveAttribute('value', '1');
 });
 
-test('initial render shows level 1 with a single leaf and no blooms', async ({ page }) => {
+test('initial render shows level 1 as a single leaf, one plant, no blooms', async ({ page }) => {
   await expect(page.locator('#title')).toHaveText(LEVELS[1][0]);
   await expect(page.locator('#desc')).toHaveText(LEVELS[1][1]);
   expect(await page.evaluate(() => window.__strokeCount)).toBe(expectedStrokes(1));
@@ -55,7 +69,8 @@ test('initial render shows level 1 with a single leaf and no blooms', async ({ p
 
 for (const [level, [price, description]] of Object.entries(LEVELS)) {
   const n = Number(level);
-  test(`slider level ${level} shows "${price}" with ${n} plant(s) and ${Math.max(0, n - 2)} bloom(s)`, async ({ page }) => {
+  const c = PLANT_CONFIG[n];
+  test(`slider level ${level} shows "${price}" with ${c.plants} plant(s) of ${c.leaves} leaves and ${c.blooms} bloom(s) each`, async ({ page }) => {
     await page.evaluate((v) => {
       window.__strokeCount = 0;
       window.__fillCount = 0;
@@ -70,26 +85,6 @@ for (const [level, [price, description]] of Object.entries(LEVELS)) {
     expect(await page.evaluate(() => window.__fillCount)).toBe(expectedFills(n));
   });
 }
-
-test('higher budgets draw strictly more plants and blooms than lower ones', async ({ page }) => {
-  const counts = [];
-  for (const level of [1, 4, 8]) {
-    const result = await page.evaluate((v) => {
-      window.__strokeCount = 0;
-      window.__fillCount = 0;
-      const slider = document.getElementById('slider');
-      slider.value = v;
-      slider.dispatchEvent(new Event('input'));
-      return { strokes: window.__strokeCount, fills: window.__fillCount };
-    }, level);
-    counts.push(result);
-  }
-
-  expect(counts[0].strokes).toBeLessThan(counts[1].strokes);
-  expect(counts[1].strokes).toBeLessThan(counts[2].strokes);
-  expect(counts[0].fills).toBeLessThan(counts[1].fills);
-  expect(counts[1].fills).toBeLessThan(counts[2].fills);
-});
 
 test('moving the slider clears the previous drawing before redrawing', async ({ page }) => {
   await page.evaluate(() => {

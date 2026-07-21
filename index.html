@@ -101,7 +101,7 @@ nav .links a:hover { opacity: 1; }
 header {
     min-height: 100vh;
     display: flex;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
     text-align: left;
     position: relative;
@@ -111,7 +111,7 @@ header {
         radial-gradient(ellipse at 80% 85%, rgba(60, 74, 45, 0.18), transparent 55%),
         var(--cream);
     color: var(--ink);
-    padding: 140px 24px 80px;
+    padding: 140px 8% 80px;
     scroll-margin-top: var(--nav-h);
 }
 
@@ -124,12 +124,13 @@ header .leaf {
     opacity: 0.85;
     transform: rotate(-8deg);
     pointer-events: none;
+    z-index: 1;
 }
 
 header .content {
     position: relative;
     z-index: 2;
-    max-width: 720px;
+    max-width: 520px;
 }
 
 .sticker {
@@ -162,6 +163,15 @@ header p {
     color: var(--ink);
     opacity: 0.65;
     margin-top: 18px;
+}
+
+@media (max-width: 760px) {
+    header .leaf {
+        width: 260px;
+        opacity: 0.3;
+        right: -90px;
+        bottom: -60px;
+    }
 }
 
 /* SECTIONS */
@@ -353,7 +363,7 @@ canvas {
     background: var(--moss);
     color: var(--cream);
     border-radius: 30px 10px 30px 10px;
-    padding: 22px 20px;
+    padding: 18px 20px 22px;
     box-shadow: 0 16px 40px rgba(38, 47, 26, 0.35);
     text-align: center;
     position: relative;
@@ -369,6 +379,20 @@ canvas {
     pointer-events: none;
 }
 
+.drag-handle {
+    width: 42px;
+    height: 5px;
+    background: rgba(246, 241, 227, 0.4);
+    border-radius: 999px;
+    margin: 0 auto 12px;
+    cursor: grab;
+    position: relative;
+    z-index: 2;
+    touch-action: none;
+}
+
+.drag-handle:active { cursor: grabbing; }
+
 .close-btn {
     position: absolute;
     top: 8px;
@@ -379,7 +403,7 @@ canvas {
     color: var(--cream);
     cursor: pointer;
     opacity: 0.6;
-    z-index: 1;
+    z-index: 2;
 }
 
 .popup-title {
@@ -543,13 +567,13 @@ footer {
 
     <span class="eyebrow">Investment</span>
     <h2>Design Scope</h2>
-    <p>Drag the slider to see how the installation grows — from a single statement plant to a full, colourful planting scheme.</p>
+    <p>Drag the slider to see how the installation grows — from a single leaf to a full, colourful planting scheme.</p>
 
     <input type="range" min="1" max="8" value="1" id="slider" class="slider">
 
     <div class="scope-title" id="title">AED 2,000</div>
 
-    <div class="scope-desc" id="desc">One statement plant, precisely placed.</div>
+    <div class="scope-desc" id="desc">One leaf, precisely placed.</div>
 
     <div class="canvas-frame">
         <canvas id="canvas"></canvas>
@@ -581,6 +605,8 @@ footer {
     <div class="popup-inner">
 
         <img class="badge-watermark" src="assets/badge-touchmoss.webp" alt="" aria-hidden="true">
+
+        <div class="drag-handle" id="popup-drag-handle" data-testid="popup-drag-handle" aria-hidden="true"></div>
 
         <button class="close-btn" id="popup-close" data-testid="popup-close" onclick="closePopup()">×</button>
 
@@ -615,8 +641,7 @@ footer {
 
 <script>
 
-/* popup delay */
-setTimeout(showPopup, 10000);
+let popupTriggered = false;
 
 function showPopup() {
     document.getElementById("popup").style.display = "block";
@@ -629,6 +654,15 @@ function closePopup() {
 function resetPopup() {
     document.getElementById("popup-step-1").style.display = "block";
     document.getElementById("popup-step-2").style.display = "none";
+}
+
+/* Show the proposal popup the first time someone actually engages with the
+   budget slider — that's a much stronger buying signal than a blind timer. */
+function triggerPopupFromSlider() {
+    if (popupTriggered) return;
+    popupTriggered = true;
+    resetPopup();
+    showPopup();
 }
 
 document.getElementById("contact-start-proposal").addEventListener("click", () => {
@@ -681,16 +715,52 @@ function sendProposal() {
     document.getElementById("popup").style.display = "none";
 }
 
+/* Let the popup be dragged anywhere in the viewport by its handle, so it
+   never has to be closed just because it's sitting on top of something the
+   visitor wants to read. */
+(function enableDrag() {
+    const popup = document.getElementById("popup");
+    const handle = document.getElementById("popup-drag-handle");
+    let dragging = false;
+    let offsetX = 0;
+    let offsetY = 0;
+
+    handle.addEventListener("pointerdown", (e) => {
+        dragging = true;
+        const rect = popup.getBoundingClientRect();
+        offsetX = e.clientX - rect.left;
+        offsetY = e.clientY - rect.top;
+        popup.style.left = rect.left + "px";
+        popup.style.top = rect.top + "px";
+        popup.style.right = "auto";
+        popup.style.bottom = "auto";
+        handle.setPointerCapture(e.pointerId);
+    });
+
+    handle.addEventListener("pointermove", (e) => {
+        if (!dragging) return;
+        const maxLeft = window.innerWidth - popup.offsetWidth;
+        const maxTop = window.innerHeight - popup.offsetHeight;
+        const newLeft = Math.max(0, Math.min(e.clientX - offsetX, maxLeft));
+        const newTop = Math.max(0, Math.min(e.clientY - offsetY, maxTop));
+        popup.style.left = newLeft + "px";
+        popup.style.top = newTop + "px";
+    });
+
+    handle.addEventListener("pointerup", () => { dragging = false; });
+    handle.addEventListener("pointercancel", () => { dragging = false; });
+})();
+
 /* SLIDER DATA */
 const data = {
-    1: ["AED 2,000", "One statement plant, precisely placed."],
-    2: ["AED 5,000", "A pair of plants begin a quiet dialogue."],
-    3: ["AED 10,000", "The grouping grows, and first blooms appear."],
-    4: ["AED 15,000", "A fuller planting with layered colour."],
-    5: ["AED 20,000", "Dense planting as blooms multiply."],
-    6: ["AED 25,000", "A rich, layered botanical scene."],
-    7: ["AED 35,000", "Immersive planting in full colour."],
-    8: ["AED 50,000+", "A complete living installation, in full bloom."]
+    1: ["AED 2,000", "One leaf, precisely placed."],
+    2: ["AED 5,000", "A second leaf joins it."],
+    3: ["AED 10,000", "A small plant takes shape."],
+    4: ["AED 15,000", "A pair of plants begin a dialogue."],
+    5: ["AED 20,000", "A grouping of plants, with first blooms."],
+    6: ["AED 25,000", "A fuller, richer grouping in bloom."],
+    7: ["AED 35,000", "One grand statement plant, in full colour."],
+    8: ["AED 50,000+", "Two grand statement plants, a complete installation."]
 };
 
 /* populate popup budget chips from the same tier data */
@@ -716,6 +786,21 @@ const ctx = canvas.getContext("2d");
 const bloomColors = ["#c69a34", "#ab5334", "#d98f72"];
 const leafColors = ["#3c4a2d", "#4d5c3a", "#6d7a4c"];
 
+/* Explicit per-level scene: how many plants, how many leaves each, how
+   many blooms each, and whether they're drawn as large statement plants.
+   1 leaf -> 2 -> 3 -> 2 plants -> 3 plants -> 3 fuller plants -> 1 big
+   plant -> 2 big plants. */
+const plantConfig = {
+    1: { plants: 1, leaves: 1, blooms: 0, big: false },
+    2: { plants: 1, leaves: 2, blooms: 0, big: false },
+    3: { plants: 1, leaves: 3, blooms: 1, big: false },
+    4: { plants: 2, leaves: 3, blooms: 1, big: false },
+    5: { plants: 3, leaves: 4, blooms: 2, big: false },
+    6: { plants: 3, leaves: 5, blooms: 2, big: false },
+    7: { plants: 1, leaves: 8, blooms: 3, big: true },
+    8: { plants: 2, leaves: 8, blooms: 3, big: true }
+};
+
 let cssWidth = 0;
 let cssHeight = 0;
 
@@ -729,67 +814,100 @@ function sizeCanvas() {
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
 }
 
-function drawPot(cx, baseY) {
-    const potWidth = 90;
-    const potHeight = 46;
+function drawLeaf(originX, originY, angle, length, width, color) {
+    ctx.save();
+    ctx.translate(originX, originY);
+    ctx.rotate(angle);
 
     ctx.beginPath();
-    ctx.moveTo(cx - potWidth / 2, baseY);
-    ctx.lineTo(cx + potWidth / 2, baseY);
-    ctx.lineTo(cx + potWidth / 2 - 10, baseY + potHeight);
-    ctx.lineTo(cx - potWidth / 2 + 10, baseY + potHeight);
+    ctx.moveTo(0, 0);
+    ctx.bezierCurveTo(width, length * 0.3, width * 0.6, length * 0.85, 0, length);
+    ctx.bezierCurveTo(-width * 0.6, length * 0.85, -width, length * 0.3, 0, 0);
     ctx.closePath();
-    ctx.fillStyle = "#262f1a";
+    ctx.fillStyle = color;
+    ctx.fill();
+
+    ctx.beginPath();
+    ctx.moveTo(0, length * 0.1);
+    ctx.lineTo(0, length * 0.9);
+    ctx.strokeStyle = "rgba(38, 47, 26, 0.35)";
+    ctx.lineWidth = 1;
+    ctx.stroke();
+
+    ctx.restore();
+}
+
+function drawBloom(x, y, r, color) {
+    ctx.beginPath();
+    ctx.arc(x, y, r, 0, Math.PI * 2);
+    ctx.fillStyle = color;
+    ctx.fill();
+
+    ctx.beginPath();
+    ctx.arc(x, y, r * 0.4, 0, Math.PI * 2);
+    ctx.fillStyle = "#f6f1e3";
     ctx.fill();
 }
 
-function draw(level) {
+function drawPlant(cx, baseY, leaves, blooms, big) {
+    const potW = big ? 76 : 44;
+    const potH = big ? 36 : 20;
+    const stemLen = big ? 78 : 42;
+    const leafLen = big ? 50 : 28;
+    const leafWidth = big ? 15 : 8;
+    const spread = big ? 210 : (leaves <= 1 ? 0 : 140);
 
-    ctx.clearRect(0, 0, cssWidth, cssHeight);
+    ctx.beginPath();
+    ctx.moveTo(cx - potW / 2, baseY);
+    ctx.lineTo(cx + potW / 2, baseY);
+    ctx.lineTo(cx + potW / 2 - potW * 0.12, baseY + potH);
+    ctx.lineTo(cx - potW / 2 + potW * 0.12, baseY + potH);
+    ctx.closePath();
+    ctx.fillStyle = "#262f1a";
+    ctx.fill();
 
-    const leafCount = Number(level);
-    const bloomCount = Math.max(0, leafCount - 2);
+    const clusterY = baseY - stemLen;
 
-    const cx = cssWidth / 2;
-    const baseY = cssHeight - 40;
-
-    drawPot(cx, baseY);
+    ctx.beginPath();
+    ctx.moveTo(cx, baseY);
+    ctx.lineTo(cx, clusterY);
+    ctx.strokeStyle = "#4d5c3a";
+    ctx.lineWidth = big ? 4 : 3;
+    ctx.stroke();
 
     const tips = [];
-
-    for (let i = 0; i < leafCount; i++) {
-        const t = leafCount <= 1 ? 0.5 : i / (leafCount - 1);
-        const angleDeg = -65 + t * 130;
+    for (let i = 0; i < leaves; i++) {
+        const t = leaves <= 1 ? 0.5 : i / (leaves - 1);
+        const angleDeg = -spread / 2 + t * spread;
         const angle = (angleDeg * Math.PI) / 180;
-        const length = 60 + leafCount * 9 + (Math.random() * 16 - 8);
+        const len = leafLen * (0.88 + Math.random() * 0.24);
+        const color = leafColors[i % leafColors.length];
 
-        const tipX = cx + Math.sin(angle) * length;
-        const tipY = baseY - Math.cos(angle) * length;
-        tips.push({ x: tipX, y: tipY, angle });
+        drawLeaf(cx, clusterY, angle, len, leafWidth, color);
 
-        ctx.beginPath();
-        ctx.moveTo(cx, baseY);
-        ctx.lineTo(tipX, tipY);
-        ctx.strokeStyle = "#6d7a4c";
-        ctx.lineWidth = 2;
-        ctx.stroke();
-
-        ctx.save();
-        ctx.translate(tipX, tipY);
-        ctx.rotate(angle);
-        ctx.beginPath();
-        ctx.ellipse(0, 0, 16, 9, 0, 0, Math.PI * 2);
-        ctx.fillStyle = leafColors[i % leafColors.length];
-        ctx.fill();
-        ctx.restore();
+        tips.push({
+            x: cx + Math.sin(angle) * len,
+            y: clusterY - Math.cos(angle) * len
+        });
     }
 
-    for (let j = 0; j < bloomCount; j++) {
-        const tip = tips[tips.length - 1 - j];
-        ctx.beginPath();
-        ctx.arc(tip.x, tip.y, 7, 0, Math.PI * 2);
-        ctx.fillStyle = bloomColors[j % bloomColors.length];
-        ctx.fill();
+    for (let j = 0; j < blooms; j++) {
+        const tipIndex = Math.min(Math.floor(((j + 1) / (blooms + 1)) * tips.length), tips.length - 1);
+        const tip = tips[tipIndex];
+        drawBloom(tip.x, tip.y, big ? 8 : 6, bloomColors[j % bloomColors.length]);
+    }
+}
+
+function draw(level) {
+    ctx.clearRect(0, 0, cssWidth, cssHeight);
+
+    const config = plantConfig[level];
+    const baseY = cssHeight - 36;
+    const gap = cssWidth / (config.plants + 1);
+
+    for (let p = 0; p < config.plants; p++) {
+        const cx = gap * (p + 1);
+        drawPlant(cx, baseY, config.leaves, config.blooms, config.big);
     }
 }
 
@@ -799,6 +917,7 @@ slider.oninput = function () {
     desc.innerText = v[1];
 
     draw(this.value);
+    triggerPopupFromSlider();
 };
 
 // initial render
