@@ -1,9 +1,11 @@
 const { test, expect } = require('@playwright/test');
 
-async function openPopup(page) {
-  await page.clock.install();
+async function openPopupViaSlider(page) {
   await page.goto('/');
-  await page.clock.fastForward(10000);
+  await page.locator('#slider').evaluate((el) => {
+    el.value = 3;
+    el.dispatchEvent(new Event('input'));
+  });
   await expect(page.locator('#popup')).toBeVisible();
 }
 
@@ -17,22 +19,35 @@ function decodeMailto(href) {
   };
 }
 
-test('popup is hidden on load and stays hidden before the 10s delay', async ({ page }) => {
-  await page.clock.install();
+test('popup is hidden on load and stays hidden without any slider interaction', async ({ page }) => {
   await page.goto('/');
   await expect(page.locator('#popup')).toBeHidden();
 
-  await page.clock.fastForward(9000);
+  // give any stray async trigger a chance to fire before asserting it didn't
+  await page.waitForTimeout(500);
   await expect(page.locator('#popup')).toBeHidden();
 });
 
-test('popup appears automatically after 10 seconds, starting on the proposal step', async ({ page }) => {
-  await openPopup(page);
+test('the first slider interaction opens the popup on the proposal step', async ({ page }) => {
+  await openPopupViaSlider(page);
   await expect(page.locator('#popup-step-1')).toBeVisible();
   await expect(page.locator('#popup-step-2')).toBeHidden();
 });
 
-test('the "Start a Proposal" button in Contact opens the popup immediately', async ({ page }) => {
+test('closing the auto-triggered popup does not bring it back on further slider moves', async ({ page }) => {
+  await openPopupViaSlider(page);
+  await page.locator('#popup-close').click();
+  await expect(page.locator('#popup')).toBeHidden();
+
+  await page.locator('#slider').evaluate((el) => {
+    el.value = 6;
+    el.dispatchEvent(new Event('input'));
+  });
+
+  await expect(page.locator('#popup')).toBeHidden();
+});
+
+test('the "Start a Proposal" button in Contact opens the popup regardless of slider state', async ({ page }) => {
   await page.goto('/');
   await expect(page.locator('#popup')).toBeHidden();
 
@@ -42,8 +57,27 @@ test('the "Start a Proposal" button in Contact opens the popup immediately', asy
   await expect(page.locator('#popup-step-1')).toBeVisible();
 });
 
+test('the popup can be dragged by its handle away from its default corner', async ({ page }) => {
+  await openPopupViaSlider(page);
+
+  const before = await page.locator('#popup').boundingBox();
+
+  const handle = page.locator('#popup-drag-handle');
+  const handleBox = await handle.boundingBox();
+
+  await page.mouse.move(handleBox.x + handleBox.width / 2, handleBox.y + handleBox.height / 2);
+  await page.mouse.down();
+  await page.mouse.move(200, 200, { steps: 10 });
+  await page.mouse.up();
+
+  const after = await page.locator('#popup').boundingBox();
+
+  expect(after.x).not.toBeCloseTo(before.x, 0);
+  expect(after.y).not.toBeCloseTo(before.y, 0);
+});
+
 test('submitting an empty proposal alerts and keeps step 1 open', async ({ page }) => {
-  await openPopup(page);
+  await openPopupViaSlider(page);
 
   let alertMessage = null;
   page.once('dialog', async (dialog) => {
@@ -59,7 +93,7 @@ test('submitting an empty proposal alerts and keeps step 1 open', async ({ page 
 });
 
 test('a filled-in proposal advances to the budget step, and Back returns to step 1', async ({ page }) => {
-  await openPopup(page);
+  await openPopupViaSlider(page);
 
   await page.locator('#proposal').fill('A courtyard entrance with layered greenery.');
   await page.locator('#popup-next').click();
@@ -74,7 +108,7 @@ test('a filled-in proposal advances to the budget step, and Back returns to step
 });
 
 test('submitting an empty budget alerts and keeps step 2 open', async ({ page }) => {
-  await openPopup(page);
+  await openPopupViaSlider(page);
 
   await page.locator('#proposal').fill('A courtyard entrance with layered greenery.');
   await page.locator('#popup-next').click();
@@ -92,7 +126,7 @@ test('submitting an empty budget alerts and keeps step 2 open', async ({ page })
 });
 
 test('clicking a budget chip fills the budget field', async ({ page }) => {
-  await openPopup(page);
+  await openPopupViaSlider(page);
 
   await page.locator('#proposal').fill('A courtyard entrance with layered greenery.');
   await page.locator('#popup-next').click();
@@ -103,7 +137,7 @@ test('clicking a budget chip fills the budget field', async ({ page }) => {
 });
 
 test('sending a complete proposal builds a mailto to botanical.dubai@gmail.com and closes the popup', async ({ page }) => {
-  await openPopup(page);
+  await openPopupViaSlider(page);
 
   await page.locator('#proposal').fill('A courtyard entrance with layered greenery.');
   await page.locator('#popup-next').click();
@@ -123,7 +157,7 @@ test('sending a complete proposal builds a mailto to botanical.dubai@gmail.com a
 });
 
 test('close button dismisses the popup without sending anything', async ({ page }) => {
-  await openPopup(page);
+  await openPopupViaSlider(page);
 
   await page.locator('#popup-close').click();
 
