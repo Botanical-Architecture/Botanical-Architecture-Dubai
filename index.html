@@ -824,19 +824,24 @@ const ctx = canvas.getContext("2d");
 const bloomColors = ["#c69a34", "#ab5334", "#d98f72"];
 const leafColors = ["#3c4a2d", "#4d5c3a", "#6d7a4c"];
 
-/* Explicit per-level scene: how many plants, how many leaves each, how
-   many blooms each, and whether they're drawn as large statement plants.
-   1 leaf -> 2 -> 3 -> 2 plants -> 3 plants -> 3 fuller plants -> 1 big
-   plant -> 2 big plants. */
-const plantConfig = {
-    1: { plants: 1, leaves: 1, blooms: 0, big: false },
-    2: { plants: 1, leaves: 2, blooms: 0, big: false },
-    3: { plants: 1, leaves: 3, blooms: 1, big: false },
-    4: { plants: 2, leaves: 3, blooms: 1, big: false },
-    5: { plants: 3, leaves: 4, blooms: 2, big: false },
-    6: { plants: 3, leaves: 5, blooms: 2, big: false },
-    7: { plants: 1, leaves: 8, blooms: 3, big: true },
-    8: { plants: 2, leaves: 8, blooms: 3, big: true }
+const anchorColor = "#262f1a";
+const bloomCenter = "#f6f1e3";
+
+/* Abstract "geometric faceted bloom" scene per tier. Each tier is a single
+   low-poly composition: angular triangular leaf facets fanning up from a
+   faceted base, topped with polygonal (hex/heptagon/...) blooms. Every value
+   below rises monotonically with the tier so more budget always reads as a
+   taller, wider, denser mark: more facets, wider fan (spread), more + larger
+   + more-sided polygon blooms, and a taller fill fraction of the canvas. */
+const facetConfig = {
+    1: { facets: 3,  blooms: 0, bloomSides: 6, spread: 62,  fill: 0.40 },
+    2: { facets: 5,  blooms: 1, bloomSides: 6, spread: 80,  fill: 0.47 },
+    3: { facets: 7,  blooms: 1, bloomSides: 6, spread: 96,  fill: 0.54 },
+    4: { facets: 9,  blooms: 2, bloomSides: 7, spread: 112, fill: 0.61 },
+    5: { facets: 12, blooms: 2, bloomSides: 7, spread: 128, fill: 0.68 },
+    6: { facets: 15, blooms: 3, bloomSides: 8, spread: 144, fill: 0.75 },
+    7: { facets: 18, blooms: 4, bloomSides: 8, spread: 158, fill: 0.82 },
+    8: { facets: 22, blooms: 5, bloomSides: 9, spread: 172, fill: 0.88 }
 };
 
 let cssWidth = 0;
@@ -852,109 +857,131 @@ function sizeCanvas() {
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
 }
 
-function drawLeaf(ctx, originX, originY, angle, length, width, color) {
-    ctx.save();
-    ctx.translate(originX, originY);
-    ctx.rotate(angle);
+/* Small deterministic PRNG (mulberry32) so each tier's facet jitter is
+   stable frame-to-frame — the composition must not reshuffle on every
+   redraw, and stable output keeps the tier screenshots reproducible. */
+function makeRng(seed) {
+    let s = seed >>> 0;
+    return function () {
+        s = (s + 0x6D2B79F5) | 0;
+        let t = Math.imul(s ^ (s >>> 15), 1 | s);
+        t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+        return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+    };
+}
 
+/* Trace a regular polygon path (straight-edged) centred at (cx, cy). */
+function polygonPath(ctx, cx, cy, r, sides, rot) {
     ctx.beginPath();
-    ctx.moveTo(0, 0);
-    ctx.bezierCurveTo(width, length * 0.3, width * 0.6, length * 0.85, 0, length);
-    ctx.bezierCurveTo(-width * 0.6, length * 0.85, -width, length * 0.3, 0, 0);
+    for (let i = 0; i < sides; i++) {
+        const a = rot + (i / sides) * Math.PI * 2;
+        const x = cx + Math.cos(a) * r;
+        const y = cy + Math.sin(a) * r;
+        if (i === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+    }
     ctx.closePath();
-    ctx.fillStyle = color;
-    ctx.fill();
-
-    ctx.beginPath();
-    ctx.moveTo(0, length * 0.1);
-    ctx.lineTo(0, length * 0.9);
-    ctx.strokeStyle = "rgba(38, 47, 26, 0.35)";
-    ctx.lineWidth = 1;
-    ctx.stroke();
-
-    ctx.restore();
 }
 
-function drawBloom(ctx, x, y, r, color) {
+/* One low-poly leaf facet: a kite split down its axis into two triangles of
+   adjacent leaf hues, giving an angular folded/creased shard rather than an
+   organic curved leaf. Returns the tip point so blooms can perch on it. */
+function drawFacet(ctx, ox, oy, angle, length, halfWidth, colorL, colorR) {
+    const ax = Math.sin(angle);       // axis (up-ish) direction
+    const ay = -Math.cos(angle);
+    const px = Math.cos(angle);       // perpendicular direction
+    const py = Math.sin(angle);
+    const tx = ox + ax * length;
+    const ty = oy + ay * length;
+    const mx = ox + ax * length * 0.45;
+    const my = oy + ay * length * 0.45;
+    const lx = mx - px * halfWidth, ly = my - py * halfWidth;
+    const rx = mx + px * halfWidth, ry = my + py * halfWidth;
+
+    ctx.globalAlpha = 0.85;           // overlap builds subtle depth
     ctx.beginPath();
-    ctx.arc(x, y, r, 0, Math.PI * 2);
-    ctx.fillStyle = color;
-    ctx.fill();
+    ctx.moveTo(ox, oy); ctx.lineTo(lx, ly); ctx.lineTo(tx, ty); ctx.closePath();
+    ctx.fillStyle = colorL; ctx.fill();
 
     ctx.beginPath();
-    ctx.arc(x, y, r * 0.4, 0, Math.PI * 2);
-    ctx.fillStyle = "#f6f1e3";
-    ctx.fill();
+    ctx.moveTo(ox, oy); ctx.lineTo(rx, ry); ctx.lineTo(tx, ty); ctx.closePath();
+    ctx.fillStyle = colorR; ctx.fill();
+
+    ctx.globalAlpha = 0.4;            // crease line down the fold
+    ctx.beginPath();
+    ctx.moveTo(ox, oy); ctx.lineTo(tx, ty);
+    ctx.strokeStyle = anchorColor; ctx.lineWidth = 1; ctx.stroke();
+    ctx.globalAlpha = 1;
+
+    return { x: tx, y: ty };
 }
 
-function drawPlant(ctx, cx, baseY, leaves, blooms, big, canvasHeight) {
-    // Scale the whole plant to fill the canvas box vertically (big
-    // statement plants reach further up than small starter ones) instead
-    // of drawing at a handful of fixed pixel sizes regardless of the box.
+/* Polygonal bloom: concentric straight-edged polygons (outer petal ring,
+   rotated inner ring, cream core) for a layered faceted gem look. */
+function drawFacetBloom(ctx, x, y, r, sides, colorA, colorB) {
+    ctx.globalAlpha = 0.92;
+    polygonPath(ctx, x, y, r, sides, -Math.PI / 2);
+    ctx.fillStyle = colorA; ctx.fill();
+
+    ctx.globalAlpha = 0.96;
+    polygonPath(ctx, x, y, r * 0.62, sides, -Math.PI / 2 + Math.PI / sides);
+    ctx.fillStyle = colorB; ctx.fill();
+
+    ctx.globalAlpha = 1;
+    polygonPath(ctx, x, y, r * 0.3, sides, -Math.PI / 2);
+    ctx.fillStyle = bloomCenter; ctx.fill();
+
+    ctx.globalAlpha = 0.5;
+    polygonPath(ctx, x, y, r, sides, -Math.PI / 2);
+    ctx.strokeStyle = anchorColor; ctx.lineWidth = 1; ctx.stroke();
+    ctx.globalAlpha = 1;
+}
+
+/* Assemble the abstract mark: a faceted diamond base, a fan of leaf facets
+   rising from it (longer through the middle for a leaf-like silhouette), and
+   polygonal blooms distributed across the outer tips. */
+function drawFacetComposition(ctx, cx, baseY, config, canvasHeight, rng) {
     const available = canvasHeight - 48;
-    const fillFraction = big ? 0.84 : 0.58;
-    const totalHeight = available * fillFraction;
+    const maxLen = available * config.fill;
+    const spreadRad = (config.spread * Math.PI) / 180;
 
-    const potH = totalHeight * 0.22;
-    const stemLen = totalHeight * 0.47;
-    const leafLen = totalHeight * 0.31;
-    const potW = potH * 2.2;
-    const leafWidth = leafLen * 0.29;
-    const spread = big ? 210 : (leaves <= 1 ? 0 : 140);
-
-    ctx.beginPath();
-    ctx.moveTo(cx - potW / 2, baseY);
-    ctx.lineTo(cx + potW / 2, baseY);
-    ctx.lineTo(cx + potW / 2 - potW * 0.12, baseY + potH);
-    ctx.lineTo(cx - potW / 2 + potW * 0.12, baseY + potH);
-    ctx.closePath();
-    ctx.fillStyle = "#262f1a";
-    ctx.fill();
-
-    const clusterY = baseY - stemLen;
-
-    ctx.beginPath();
-    ctx.moveTo(cx, baseY);
-    ctx.lineTo(cx, clusterY);
-    ctx.strokeStyle = "#4d5c3a";
-    ctx.lineWidth = big ? 4 : 3;
-    ctx.stroke();
+    const anchorR = Math.max(5, maxLen * 0.09);
+    polygonPath(ctx, cx, baseY, anchorR, 4, 0);
+    ctx.fillStyle = anchorColor; ctx.fill();
 
     const tips = [];
-    for (let i = 0; i < leaves; i++) {
-        const t = leaves <= 1 ? 0.5 : i / (leaves - 1);
-        const angleDeg = -spread / 2 + t * spread;
-        const angle = (angleDeg * Math.PI) / 180;
-        const len = leafLen * (0.88 + Math.random() * 0.24);
-        const color = leafColors[i % leafColors.length];
-
-        drawLeaf(ctx, cx, clusterY, angle, len, leafWidth, color);
-
-        tips.push({
-            x: cx + Math.sin(angle) * len,
-            y: clusterY - Math.cos(angle) * len
-        });
+    for (let i = 0; i < config.facets; i++) {
+        const t = config.facets <= 1 ? 0.5 : i / (config.facets - 1);
+        const angle = -spreadRad / 2 + t * spreadRad;
+        const shape = 0.55 + 0.45 * Math.sin(Math.PI * t); // taller mid-fan
+        const len = maxLen * shape * (0.9 + rng() * 0.2);
+        const halfWidth = len * (0.12 + rng() * 0.05);
+        const colorL = leafColors[i % leafColors.length];
+        const colorR = leafColors[(i + 1) % leafColors.length];
+        tips.push(drawFacet(ctx, cx, baseY, angle, len, halfWidth, colorL, colorR));
     }
 
-    for (let j = 0; j < blooms; j++) {
-        const tipIndex = Math.min(Math.floor(((j + 1) / (blooms + 1)) * tips.length), tips.length - 1);
+    for (let j = 0; j < config.blooms; j++) {
+        const tipIndex = config.facets <= 1
+            ? 0
+            : Math.round(((j + 1) / (config.blooms + 1)) * (config.facets - 1));
         const tip = tips[tipIndex];
-        const bloomR = leafLen * (big ? 0.19 : 0.24);
-        drawBloom(ctx, tip.x, tip.y, bloomR, bloomColors[j % bloomColors.length]);
+        if (!tip) continue;
+        const bloomR = maxLen * (0.1 + j * 0.008);
+        const cA = bloomColors[j % bloomColors.length];
+        const cB = bloomColors[(j + 1) % bloomColors.length];
+        drawFacetBloom(ctx, tip.x, tip.y, bloomR, config.bloomSides, cA, cB);
     }
 }
 
 function draw(level) {
     ctx.clearRect(0, 0, cssWidth, cssHeight);
 
-    const config = plantConfig[level];
-    const baseY = cssHeight - 24;
-    const gap = cssWidth / (config.plants + 1);
+    const config = facetConfig[level];
+    const baseY = cssHeight - 40;
+    const cx = cssWidth / 2;
+    const rng = makeRng(1000 + Number(level) * 97);
 
-    for (let p = 0; p < config.plants; p++) {
-        const cx = gap * (p + 1);
-        drawPlant(ctx, cx, baseY, config.leaves, config.blooms, config.big, cssHeight);
-    }
+    drawFacetComposition(ctx, cx, baseY, config, cssHeight, rng);
 }
 
 slider.oninput = function () {
@@ -1016,13 +1043,13 @@ sizeCanvas();
 draw(1);
 
 /* Corner watermarks for the three text-only work cards. Reuses the same
-   drawPlant/drawLeaf/drawBloom system as the Design Scope slider, drawn once
-   into each card's small <canvas> with a distinct parameter set so no two
+   faceted-bloom system as the Design Scope slider (simplified/smaller), drawn
+   once into each card's small <canvas> with a distinct parameter set so no two
    cards (or Terrarium's mushroom) look alike. */
 const cardIllusConfig = {
-    living:  { leaves: 5, blooms: 1, big: false }, // tall upward starter
-    desert:  { leaves: 3, blooms: 0, big: false }, // sparse / structural
-    private: { leaves: 8, blooms: 3, big: true }   // full, premium statement
+    living:  { facets: 5, blooms: 1, bloomSides: 6, spread: 90,  fill: 0.72 }, // upward starter
+    desert:  { facets: 3, blooms: 0, bloomSides: 6, spread: 68,  fill: 0.72 }, // sparse / structural
+    private: { facets: 9, blooms: 3, bloomSides: 8, spread: 150, fill: 0.92 }  // full, premium statement
 };
 
 function drawCardWatermark(canvasEl) {
@@ -1041,9 +1068,10 @@ function drawCardWatermark(canvasEl) {
     cctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     cctx.clearRect(0, 0, w, h);
 
-    // Sit the pot near the bottom of the canvas; the CSS offset bleeds the
+    // Sit the base near the bottom of the canvas; the CSS offset bleeds the
     // lower edge off the card corner, matching the .mushroom watermark.
-    drawPlant(cctx, w / 2, h - 12, config.leaves, config.blooms, config.big, h);
+    const rng = makeRng(config.facets * 131 + config.blooms * 7 + 3);
+    drawFacetComposition(cctx, w / 2, h - 10, config, h, rng);
 }
 
 document.querySelectorAll(".card-illus").forEach(drawCardWatermark);
