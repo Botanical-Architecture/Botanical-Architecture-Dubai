@@ -316,6 +316,53 @@ section {
     margin-top: 18px;
 }
 
+/* Real-photo cards keep their photo hidden until the visitor engages —
+   revealed on hover, keyboard focus (:focus-within, card is tabindex=0), or a
+   tap toggle (.revealed added by JS for touch devices with no hover). */
+.card--photo { cursor: pointer; }
+
+.card--photo:focus-visible {
+    outline: 2px solid var(--moss);
+    outline-offset: 3px;
+}
+
+.card--photo .card-hint {
+    display: inline-block;
+    margin-top: 14px;
+    font-size: 10px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--moss);
+    opacity: 0.5;
+    transition: opacity 0.3s ease;
+}
+
+.card--photo .card-photo {
+    margin-top: 0;
+    max-height: 0;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.35s ease, max-height 0.45s ease,
+                margin-top 0.45s ease, visibility 0s linear 0.45s;
+}
+
+.card--photo:hover .card-photo,
+.card--photo:focus-within .card-photo,
+.card--photo.revealed .card-photo {
+    max-height: 260px;
+    margin-top: 18px;
+    opacity: 1;
+    visibility: visible;
+    transition: opacity 0.35s ease, max-height 0.45s ease,
+                margin-top 0.45s ease, visibility 0s;
+}
+
+.card--photo:hover .card-hint,
+.card--photo:focus-within .card-hint,
+.card--photo.revealed .card-hint {
+    opacity: 0;
+}
+
 /* AS SEEN IN */
 .press {
     background: var(--paper);
@@ -716,22 +763,25 @@ footer .foot-copy {
             <h3>Terrarium Study</h3>
             <img class="mushroom" src="assets/illustration-mushroom.webp" alt="" aria-hidden="true">
         </div>
-        <div class="card">
+        <div class="card card--photo" tabindex="0">
             <span class="tag">Light, sound, scent</span>
             <h3>RAIR Essential Oils</h3>
             <p class="card-detail">An immersive activation at Esque Gallery, Dubai — biophilic architecture, light and scent.</p>
+            <span class="card-hint">Hover, focus or tap to view</span>
             <img class="card-photo" src="assets/work-rair-installation.webp" alt="Moss cascading over a concrete plinth around a lit candle centrepiece — the RAIR installation at Esque Gallery, Dubai.">
         </div>
-        <div class="card">
+        <div class="card card--photo" tabindex="0">
             <span class="tag">Fresh stems, new menu</span>
             <h3>Vera Wellness Botanical Bar</h3>
             <p class="card-detail">An ongoing Botanical Bar residency — a rotating fresh-stem menu for guests.</p>
+            <span class="card-hint">Hover, focus or tap to view</span>
             <img class="card-photo" src="assets/work-vera-wellness.webp" alt="Flat-lay of a fresh flower and stem arrangement from the Vera Wellness Botanical Bar.">
         </div>
-        <div class="card">
+        <div class="card card--photo" tabindex="0">
             <span class="tag">Grown on the table</span>
             <h3>Tablescape Design</h3>
             <p class="card-detail">An ongoing series of botanical tablescapes for private dining and events.</p>
+            <span class="card-hint">Hover, focus or tap to view</span>
             <img class="card-photo" src="assets/work-tablescape.webp" alt="A styled tablescape of gerbera daisies, tomatoes and a bell pepper arranged as botanical table decor.">
         </div>
         <div class="card">
@@ -1267,6 +1317,27 @@ function drawCardWatermark(canvasEl) {
 }
 
 document.querySelectorAll(".card-illus").forEach(drawCardWatermark);
+
+/* Touch parity for the real-photo cards: hover/:focus-within already reveal
+   the photo via CSS, but touch devices have no hover — so tapping a card
+   toggles a .revealed class. Tapping another card or outside clears others. */
+document.querySelectorAll(".card--photo").forEach(function (card) {
+    card.addEventListener("click", function () {
+        const wasRevealed = card.classList.contains("revealed");
+        document.querySelectorAll(".card--photo.revealed").forEach(function (c) {
+            if (c !== card) c.classList.remove("revealed");
+        });
+        card.classList.toggle("revealed", !wasRevealed);
+    });
+});
+
+document.addEventListener("click", function (e) {
+    if (!e.target.closest(".card--photo")) {
+        document.querySelectorAll(".card--photo.revealed").forEach(function (c) {
+            c.classList.remove("revealed");
+        });
+    }
+});
 
 </script>
 
