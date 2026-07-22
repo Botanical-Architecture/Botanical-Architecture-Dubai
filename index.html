@@ -19,6 +19,7 @@
     --moss-deep: #262f1a;
     --olive: #6d7a4c;
     --mustard: #c69a34;
+    --gold: #b3934a;
     --terracotta: #ab5334;
     --blush: #d98f72;
     --line: rgba(34, 31, 22, 0.12);
@@ -296,6 +297,97 @@ section {
     pointer-events: none;
 }
 
+/* Real project photos: prominent, cover-cropped, echoing the card's own
+   asymmetric border-radius (not a faint corner watermark like the illus). */
+.card .card-detail {
+    font-size: 12px;
+    line-height: 1.55;
+    color: var(--ink);
+    opacity: 0.7;
+    margin: 0;
+}
+
+.card .card-photo {
+    display: block;
+    width: 100%;
+    height: 240px;
+    object-fit: cover;
+    border-radius: 20px 6px 20px 6px;
+    margin-top: 18px;
+}
+
+/* AS SEEN IN */
+.press {
+    background: var(--paper);
+    text-align: center;
+    padding: 70px 10%;
+}
+
+.press .press-label {
+    display: block;
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--ink);
+    opacity: 0.45;
+    margin-bottom: 22px;
+}
+
+.press .press-names {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px 48px;
+}
+
+.press .press-names span {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-size: clamp(18px, 2.4vw, 24px);
+    color: var(--moss-deep);
+    opacity: 0.75;
+}
+
+/* SERVICES */
+.services-section { background: var(--cream); }
+
+.services-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 28px;
+    margin-top: 60px;
+}
+
+.service {
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-radius: 26px 8px 26px 8px;
+    padding: 28px 24px;
+    display: flex;
+    flex-direction: column;
+}
+
+.service h3 {
+    font-size: 19px;
+    font-weight: 500;
+    margin: 0 0 10px;
+    color: var(--moss-deep);
+}
+
+.service p {
+    font-size: 14px;
+    line-height: 1.6;
+    opacity: 0.7;
+    margin: 0 0 18px;
+    flex: 1;
+}
+
+.service .price {
+    font-family: 'Fraunces', serif;
+    font-size: 16px;
+    color: var(--mustard);
+}
+
 /* SLIDER */
 .scope {
     padding: 140px 10%;
@@ -529,14 +621,55 @@ canvas {
     text-decoration: underline;
 }
 
-/* FOOTER */
+/* FOOTER — the dark-brand moment: deep moss ground, cream text, gold accents */
 footer {
     text-align: center;
-    padding: 70px 24px;
+    padding: 80px 10% 46px;
+    background: var(--moss-deep);
+    color: var(--cream);
+    position: relative;
+}
+
+footer .foot-brand {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-weight: 500;
+    font-size: clamp(28px, 4vw, 40px);
+    line-height: 1;
+    color: var(--cream);
+    margin: 0;
+}
+
+footer .foot-rule {
+    width: 48px;
+    height: 2px;
+    background: var(--gold);
+    border: none;
+    margin: 24px auto 28px;
+}
+
+footer .foot-links {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 14px 32px;
+    font-size: 14px;
+    letter-spacing: 0.4px;
+}
+
+footer .foot-links a {
+    color: var(--gold);
+    text-decoration: none;
+    transition: opacity 0.2s ease;
+}
+
+footer .foot-links a:hover { opacity: 0.7; }
+
+footer .foot-copy {
+    margin-top: 40px;
     font-size: 12px;
     letter-spacing: 0.5px;
-    background: var(--moss-deep);
-    color: rgba(246, 241, 227, 0.7);
+    color: rgba(246, 241, 227, 0.55);
 }
 
 </style>
@@ -578,24 +711,70 @@ footer {
     </div>
     <div class="grid">
         <div class="card">
-            <span class="tag">Grow towards the light</span>
-            <h3>Living Installation I</h3>
-            <canvas class="card-illus" data-illus="living" aria-hidden="true"></canvas>
-        </div>
-        <div class="card">
             <span class="tag">Slow &amp; steady wins the race</span>
             <h3>Terrarium Study</h3>
             <img class="mushroom" src="assets/illustration-mushroom.webp" alt="" aria-hidden="true">
         </div>
         <div class="card">
-            <span class="tag">There's room to grow</span>
-            <h3>Desert Structure</h3>
-            <canvas class="card-illus" data-illus="desert" aria-hidden="true"></canvas>
+            <span class="tag">Light, sound, scent</span>
+            <h3>RAIR Essential Oils</h3>
+            <p class="card-detail">An immersive activation at Esque Gallery, Dubai — biophilic architecture, light and scent.</p>
+            <img class="card-photo" src="assets/work-rair-installation.webp" alt="Moss cascading over a concrete plinth around a lit candle centrepiece — the RAIR installation at Esque Gallery, Dubai.">
+        </div>
+        <div class="card">
+            <span class="tag">Fresh stems, new menu</span>
+            <h3>Vera Wellness Botanical Bar</h3>
+            <p class="card-detail">An ongoing Botanical Bar residency — a rotating fresh-stem menu for guests.</p>
+            <img class="card-photo" src="assets/work-vera-wellness.webp" alt="Flat-lay of a fresh flower and stem arrangement from the Vera Wellness Botanical Bar.">
         </div>
         <div class="card">
             <span class="tag">Made to bloom</span>
-            <h3>Private Commission</h3>
+            <h3>Private Commissions</h3>
+            <p class="card-detail">Bespoke work for private clients and spaces — inquire for your own.</p>
             <canvas class="card-illus" data-illus="private" aria-hidden="true"></canvas>
+        </div>
+    </div>
+</section>
+
+<section class="press">
+    <span class="press-label">As seen in</span>
+    <div class="press-names">
+        <span>Grazia ME</span>
+        <span>TimeOut Dubai</span>
+        <span>Dubai Pike</span>
+    </div>
+</section>
+
+<section id="services" class="services-section">
+    <div class="center">
+        <span class="eyebrow">What we offer</span>
+        <h2>Services</h2>
+    </div>
+    <div class="services-list">
+        <div class="service">
+            <h3>Living Installations</h3>
+            <p>Architectural botanical design for retail, F&amp;B, hospitality and brand spaces.</p>
+            <span class="price">From AED 10,000</span>
+        </div>
+        <div class="service">
+            <h3>Event Activations</h3>
+            <p>Botanical Bar, Pot Your Own Plant, Pilates + Petals.</p>
+            <span class="price">From AED 100 per guest</span>
+        </div>
+        <div class="service">
+            <h3>Workshops</h3>
+            <p>Terrarium Building, Ikebana, Learn to Propagate.</p>
+            <span class="price">From AED 200 per guest</span>
+        </div>
+        <div class="service">
+            <h3>Table-scapes</h3>
+            <p>Weddings, intimate dinners, corporate meetings.</p>
+            <span class="price">From AED 2,500</span>
+        </div>
+        <div class="service">
+            <h3>Gifting</h3>
+            <p>Single-stem bouquets, branded test-tube cuttings.</p>
+            <span class="price">From AED 30 per unit</span>
         </div>
     </div>
 </section>
@@ -634,7 +813,13 @@ footer {
 </section>
 
 <footer>
-    © 2026 Botanical Architecture Dubai
+    <p class="foot-brand">Botanical Dubai</p>
+    <hr class="foot-rule">
+    <div class="foot-links">
+        <a href="mailto:botanical.dubai@gmail.com">botanical.dubai@gmail.com</a>
+        <a href="https://www.instagram.com/botanical.dubai" target="_blank" rel="noopener">@botanical.dubai</a>
+    </div>
+    <div class="foot-copy">© 2026 Botanical Architecture Dubai</div>
 </footer>
 
 <!-- POPUP -->
