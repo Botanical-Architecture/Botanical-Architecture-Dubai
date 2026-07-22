@@ -117,10 +117,10 @@ nav .links a.active {
 
 /* HERO */
 header {
-    min-height: 100vh;
+    min-height: 80vh;
     display: flex;
     justify-content: flex-start;
-    align-items: center;
+    align-items: flex-start;
     text-align: left;
     position: relative;
     overflow: hidden;
@@ -129,7 +129,7 @@ header {
         radial-gradient(ellipse at 80% 85%, rgba(60, 74, 45, 0.18), transparent 55%),
         var(--cream);
     color: var(--ink);
-    padding: 140px 8% 80px;
+    padding: 120px 8% 80px;
     scroll-margin-top: var(--nav-h);
 }
 
@@ -391,6 +391,28 @@ section {
     opacity: 0;
 }
 
+/* Vera Wellness only: a faint pencil-sketch concept of the Botanical Bar setup,
+   pinned into the bottom-right corner and bleeding off the edge (clipped by the
+   card's overflow:hidden + rounded corner). isolation:isolate contains the
+   negative z-index so the watermark always sits above the card background but
+   behind the in-flow text and the reveal photo — it is decorative and stays
+   visible at all times, unaffected by the hover/focus/tap reveal. */
+.card--watermark { isolation: isolate; }
+
+.card--watermark .card-watermark {
+    position: absolute;
+    right: -18px;
+    bottom: -24px;
+    width: 130px;
+    height: auto;
+    opacity: 0.16;
+    z-index: -1;
+    pointer-events: none;
+    user-select: none;
+    margin: 0;
+    border-radius: 0;
+}
+
 /* "Enquire about this" control on every Work card. On the reveal-photo cards
    it sits above the tap-to-reveal photo and stops its click from toggling the
    reveal (handled in JS). z-index keeps it above corner watermarks. */
@@ -427,6 +449,56 @@ section {
 /* Services cards are flex columns, so keep the pill compact and left-aligned
    to match how it sits on the (block-layout) Work cards. */
 .service .enquire-btn { align-self: flex-start; }
+
+/* ── Decorative brand stickers ──────────────────────────────────────────────
+   The studio's own illustrated sticker designs, scattered as small rotated
+   accents in open background space. Purely decorative: every one is
+   aria-hidden with empty alt, and pointer-events:none so it can NEVER intercept
+   a click/hover on the real content sitting near or beneath it. Exact position,
+   size, rotation and opacity are set inline per placement so they read like
+   real stickers casually stuck down (varied angles, tucked into corners). */
+.deco-sticker {
+    position: absolute;
+    height: auto;
+    margin: 0;
+    pointer-events: none;
+    user-select: none;
+    z-index: 1;
+}
+
+/* On the dark footer the illustrations need a soft shadow to read against
+   the deep-moss ground. */
+footer .deco-sticker {
+    filter: drop-shadow(0 6px 16px rgba(0, 0, 0, 0.5));
+}
+
+/* Persistent corner accent tucked into a Work card. isolation:isolate lets the
+   negative z-index sit ABOVE the card's own cream background but BEHIND the
+   in-flow text and the hover/tap reveal photo — so the sticker shows in the
+   corner at rest, never covers the copy, and is quietly hidden behind the real
+   photo when it pops up (no visual clash on reveal). */
+.card--sticker { isolation: isolate; }
+
+.card--sticker .deco-sticker-corner {
+    position: absolute;
+    right: -14px;
+    bottom: -18px;
+    width: 92px;
+    height: auto;
+    margin: 0;
+    opacity: 0.6;
+    z-index: -1;
+    pointer-events: none;
+    user-select: none;
+}
+
+/* Free-floating section accents flank centered headings / sit in side margins,
+   which only exist on wider viewports — hide them on narrow screens so they
+   can't overlap or overflow the full-width mobile text. The card-corner
+   stickers stay (they're clipped inside the card, so always safe). */
+@media (max-width: 760px) {
+    .deco-sticker--hide-mobile { display: none; }
+}
 
 /* AS SEEN IN */
 .press {
@@ -872,6 +944,7 @@ footer .foot-copy {
 <header id="top">
     <div class="grain"></div>
     <img class="leaf" src="assets/leaf-monstera.webp" alt="" aria-hidden="true">
+    <img class="deco-sticker deco-sticker--hide-mobile" src="assets/sticker-theres-room-to-grow.webp" alt="" aria-hidden="true" style="top: 116px; right: 7%; width: 122px; transform: rotate(-7deg); opacity: 0.9;">
     <div class="content">
         <div class="logo-mark">Botanical Dubai</div>
         <span class="sticker" id="growSticker" role="button" tabindex="0" aria-label="Grown, not manufactured — click for a botanical burst">Grown, not manufactured</span>
@@ -880,6 +953,8 @@ footer .foot-copy {
 </header>
 
 <section id="about">
+    <img class="deco-sticker deco-sticker--hide-mobile" src="assets/sticker-monstera.webp" alt="" aria-hidden="true" style="top: 96px; left: 7%; width: 98px; transform: rotate(-5deg); opacity: 0.85;">
+    <img class="deco-sticker deco-sticker--hide-mobile" src="assets/sticker-spider-plant.webp" alt="" aria-hidden="true" style="bottom: 86px; right: 7%; width: 108px; transform: rotate(12deg); opacity: 0.85;">
     <div class="center">
         <span class="eyebrow">Our approach</span>
         <h2>Designing spatial botanical systems</h2>
@@ -888,17 +963,20 @@ footer .foot-copy {
 </section>
 
 <section id="work" class="work-section">
+    <img class="deco-sticker deco-sticker--hide-mobile" src="assets/sticker-nourish-to-flourish.webp" alt="" aria-hidden="true" style="top: 92px; right: 5%; width: 116px; transform: rotate(9deg); opacity: 0.9;">
+    <img class="deco-sticker deco-sticker--hide-mobile" src="assets/sticker-soft-and-pretty.webp" alt="" aria-hidden="true" style="top: 150px; left: 5%; width: 104px; transform: rotate(-11deg); opacity: 0.9;">
     <div class="center">
         <span class="eyebrow">Selected work</span>
         <h2>Nourish to flourish</h2>
     </div>
     <div class="grid">
-        <div class="card card--photo" tabindex="0">
+        <div class="card card--photo card--sticker" tabindex="0">
             <span class="tag">Slow &amp; steady wins the race</span>
             <h3>Terrarium Study</h3>
             <p class="card-detail">Hands-on terrarium builds — moss, soil, and glass, layered live.</p>
             <span class="card-hint">Hover, focus or tap to view</span>
             <img class="card-photo" src="assets/work-terrarium-study.webp" alt="Hands assembling terrariums in large glass vessels with moss, soil and tools during a terrarium-building workshop.">
+            <img class="deco-sticker-corner" src="assets/sticker-slow-steady.webp" alt="" aria-hidden="true" style="transform: rotate(6deg);">
             <button type="button" class="enquire-btn" data-project="Terrarium Study">Enquire about this →</button>
         </div>
         <div class="card card--photo" tabindex="0">
@@ -909,12 +987,13 @@ footer .foot-copy {
             <img class="card-photo" src="assets/work-rair-installation.webp" alt="Moss cascading over a concrete plinth around a lit candle centrepiece — the RAIR installation at Esque Gallery, Dubai.">
             <button type="button" class="enquire-btn" data-project="RAIR Essential Oils">Enquire about this →</button>
         </div>
-        <div class="card card--photo" tabindex="0">
+        <div class="card card--photo card--watermark" tabindex="0">
             <span class="tag">Fresh stems, new menu</span>
             <h3>Vera Wellness Botanical Bar</h3>
             <p class="card-detail">An ongoing Botanical Bar residency — a rotating fresh-stem menu for guests.</p>
             <span class="card-hint">Hover, focus or tap to view</span>
             <img class="card-photo" src="assets/work-vera-wellness.webp" alt="Flat-lay of a fresh flower and stem arrangement from the Vera Wellness Botanical Bar.">
+            <img class="card-watermark" src="assets/watermark-vera-bar-sketch.webp" alt="" aria-hidden="true">
             <button type="button" class="enquire-btn" data-project="Vera Wellness Botanical Bar">Enquire about this →</button>
         </div>
         <div class="card card--photo" tabindex="0">
@@ -925,12 +1004,13 @@ footer .foot-copy {
             <img class="card-photo" src="assets/work-tablescape.webp" alt="A styled tablescape of gerbera daisies, tomatoes and a bell pepper arranged as botanical table decor.">
             <button type="button" class="enquire-btn" data-project="Tablescape Design">Enquire about this →</button>
         </div>
-        <div class="card card--photo" tabindex="0">
+        <div class="card card--photo card--sticker" tabindex="0">
             <span class="tag">Made to bloom</span>
             <h3>Private Commissions</h3>
             <p class="card-detail">Bespoke work for private clients and spaces — inquire for your own.</p>
             <span class="card-hint">Hover, focus or tap to view</span>
             <img class="card-photo" src="assets/work-private-commission.webp" alt="A living installation in a white gallery — moss cascading down a concrete plinth beside a tall plant reaching toward the ceiling, among circular wall art.">
+            <img class="deco-sticker-corner" src="assets/sticker-made-to-bloom.webp" alt="" aria-hidden="true" style="transform: rotate(-8deg);">
             <button type="button" class="enquire-btn" data-project="Private Commissions">Enquire about this →</button>
         </div>
     </div>
@@ -1018,6 +1098,9 @@ footer .foot-copy {
 </section>
 
 <footer>
+    <img class="deco-sticker deco-sticker--hide-mobile" src="assets/sticker-touch-moss.webp" alt="" aria-hidden="true" style="top: 34px; left: 6%; width: 88px; transform: rotate(8deg); opacity: 0.95;">
+    <img class="deco-sticker deco-sticker--hide-mobile" src="assets/sticker-pothos-pot.webp" alt="" aria-hidden="true" style="top: 40px; right: 7%; width: 76px; transform: rotate(-9deg); opacity: 0.95;">
+    <img class="deco-sticker deco-sticker--hide-mobile" src="assets/sticker-trailing-plant-pot.webp" alt="" aria-hidden="true" style="bottom: 26px; right: 10%; width: 104px; transform: rotate(5deg); opacity: 0.95;">
     <p class="foot-brand">Botanical Dubai</p>
     <hr class="foot-rule">
     <div class="foot-links">
