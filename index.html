@@ -391,6 +391,28 @@ section {
     opacity: 0;
 }
 
+/* Vera Wellness only: a faint pencil-sketch concept of the Botanical Bar setup,
+   pinned into the bottom-right corner and bleeding off the edge (clipped by the
+   card's overflow:hidden + rounded corner). isolation:isolate contains the
+   negative z-index so the watermark always sits above the card background but
+   behind the in-flow text and the reveal photo — it is decorative and stays
+   visible at all times, unaffected by the hover/focus/tap reveal. */
+.card--watermark { isolation: isolate; }
+
+.card--watermark .card-watermark {
+    position: absolute;
+    right: -18px;
+    bottom: -24px;
+    width: 130px;
+    height: auto;
+    opacity: 0.16;
+    z-index: -1;
+    pointer-events: none;
+    user-select: none;
+    margin: 0;
+    border-radius: 0;
+}
+
 /* "Enquire about this" control on every Work card. On the reveal-photo cards
    it sits above the tap-to-reveal photo and stops its click from toggling the
    reveal (handled in JS). z-index keeps it above corner watermarks. */
@@ -965,12 +987,13 @@ footer .foot-copy {
             <img class="card-photo" src="assets/work-rair-installation.webp" alt="Moss cascading over a concrete plinth around a lit candle centrepiece — the RAIR installation at Esque Gallery, Dubai.">
             <button type="button" class="enquire-btn" data-project="RAIR Essential Oils">Enquire about this →</button>
         </div>
-        <div class="card card--photo" tabindex="0">
+        <div class="card card--photo card--watermark" tabindex="0">
             <span class="tag">Fresh stems, new menu</span>
             <h3>Vera Wellness Botanical Bar</h3>
             <p class="card-detail">An ongoing Botanical Bar residency — a rotating fresh-stem menu for guests.</p>
             <span class="card-hint">Hover, focus or tap to view</span>
             <img class="card-photo" src="assets/work-vera-wellness.webp" alt="Flat-lay of a fresh flower and stem arrangement from the Vera Wellness Botanical Bar.">
+            <img class="card-watermark" src="assets/watermark-vera-bar-sketch.webp" alt="" aria-hidden="true">
             <button type="button" class="enquire-btn" data-project="Vera Wellness Botanical Bar">Enquire about this →</button>
         </div>
         <div class="card card--photo" tabindex="0">
