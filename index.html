@@ -494,17 +494,17 @@ footer .deco-sticker {
 }
 
 /* Free-floating section accents flank centered headings / sit in side margins.
-   On narrow (phone) screens their desktop positions/sizes would overlap the
-   full-width text, so instead of hiding them we shrink each one and tuck it
+   On narrow (phone/tablet) screens their desktop positions/sizes would overlap
+   the full-width text, so instead of hiding them we shrink each one and tuck it
    into the open margin of its section — keeping the stickers "present" on
    mobile without ever covering copy, buttons or one another. Inline styles
    hold the desktop values, so these mobile overrides need !important. The
    card-corner stickers are handled separately (clipped inside the card). */
-@media (max-width: 760px) {
+@media (max-width: 1140px) {
     .deco-sticker[src$="sticker-theres-room-to-grow.webp"] {
         top: 14px !important; bottom: auto !important; left: 4% !important; right: auto !important; width: 58px !important;
     }
-    .deco-sticker[src$="sticker-monstera.webp"] {
+    .deco-sticker[src$="sticker-made-to-bloom.webp"] {
         top: 30px !important; bottom: auto !important; left: 5% !important; right: auto !important; width: 62px !important;
     }
     .deco-sticker[src$="sticker-spider-plant.webp"] {
@@ -522,7 +522,7 @@ footer .deco-sticker {
     .deco-sticker[src$="sticker-pothos-pot.webp"] {
         top: 10px !important; bottom: auto !important; left: auto !important; right: 4% !important; width: 48px !important;
     }
-    .deco-sticker[src$="sticker-made-to-bloom.webp"] {
+    .deco-sticker[src$="sticker-monstera.webp"] {
         top: auto !important; bottom: 24px !important; left: auto !important; right: 8% !important; width: 60px !important;
     }
     .deco-sticker[src$="sticker-trailing-plant-pot.webp"] {
@@ -982,7 +982,7 @@ footer .foot-copy {
 </header>
 
 <section id="about">
-    <img class="deco-sticker deco-sticker--hide-mobile" src="assets/sticker-monstera.webp" alt="" aria-hidden="true" style="top: 96px; left: 7%; width: 98px; transform: rotate(-5deg); opacity: 0.85;">
+    <img class="deco-sticker deco-sticker--hide-mobile" src="assets/sticker-made-to-bloom.webp" alt="" aria-hidden="true" style="top: 96px; left: 7%; width: 98px; transform: rotate(-5deg); opacity: 0.85;">
     <div class="center">
         <span class="eyebrow">Our approach</span>
         <h2>Designing spatial botanical systems</h2>
@@ -1054,7 +1054,7 @@ footer .foot-copy {
 
 <section id="services" class="services-section">
     <img class="deco-sticker deco-sticker--hide-mobile" src="assets/sticker-pothos-pot.webp" alt="" aria-hidden="true" style="top: 120px; right: 7%; width: 92px; transform: rotate(-9deg); opacity: 0.85;">
-    <img class="deco-sticker deco-sticker--hide-mobile" src="assets/sticker-spider-plant.webp" alt="" aria-hidden="true" style="top: 720px; left: 6%; width: 108px; transform: rotate(12deg); opacity: 0.85;">
+    <img class="deco-sticker deco-sticker--hide-mobile" src="assets/sticker-spider-plant.webp" alt="" aria-hidden="true" style="bottom: 12px; left: 6%; width: 84px; transform: rotate(12deg); opacity: 0.85;">
     <div class="center">
         <span class="eyebrow">What we offer</span>
         <h2>Services</h2>
@@ -1096,7 +1096,7 @@ footer .foot-copy {
 <!-- SLIDER -->
 <section class="scope">
     <img class="deco-sticker deco-sticker--hide-mobile" src="assets/sticker-soft-and-pretty.webp" alt="" aria-hidden="true" style="top: 430px; left: 2%; width: 100px; transform: rotate(-11deg); opacity: 0.9;">
-    <img class="deco-sticker deco-sticker--hide-mobile" src="assets/sticker-made-to-bloom.webp" alt="" aria-hidden="true" style="top: 925px; right: 10%; width: 100px; transform: rotate(-8deg); opacity: 0.85;">
+    <img class="deco-sticker deco-sticker--hide-mobile" src="assets/sticker-monstera.webp" alt="" aria-hidden="true" style="top: 925px; right: 10%; width: 100px; transform: rotate(-8deg); opacity: 0.85;">
 
     <span class="eyebrow">Investment</span>
     <h2>Design Scope</h2>
