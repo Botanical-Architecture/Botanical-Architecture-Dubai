@@ -176,6 +176,42 @@ header .content {
     transform: rotate(-3deg);
     margin-bottom: 28px;
     box-shadow: 0 8px 20px rgba(38, 47, 26, 0.25);
+    cursor: pointer;
+    user-select: none;
+}
+.sticker:active {
+    transform: rotate(-3deg) scale(0.96);
+}
+
+/* Decorative botanical burst particles spawned on sticker click */
+.leaf-burst {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 12px;
+    height: 12px;
+    border-radius: 0% 100% 0% 100%;
+    pointer-events: none;
+    z-index: 60;
+    will-change: transform, opacity;
+    animation: leafBurstFly var(--burst-dur, 1200ms) cubic-bezier(0.2, 0.6, 0.4, 1) forwards;
+}
+@keyframes leafBurstFly {
+    0% {
+        transform: translate(var(--x0), var(--y0)) rotate(0deg) scale(0.4);
+        opacity: 1;
+    }
+    15% {
+        opacity: 1;
+        transform: translate(var(--xm), var(--ym)) rotate(var(--rm)) scale(1);
+    }
+    100% {
+        transform: translate(var(--xe), var(--ye)) rotate(var(--re)) scale(0.9);
+        opacity: 0;
+    }
+}
+@media (prefers-reduced-motion: reduce) {
+    .leaf-burst { animation-duration: 1ms; opacity: 0; }
 }
 
 header h1 {
@@ -856,7 +892,7 @@ footer .foot-copy {
     <img class="leaf" src="assets/leaf-monstera.webp" alt="" aria-hidden="true">
     <div class="content">
         <div class="logo-mark">Botanical Dubai</div>
-        <span class="sticker">Grown, not manufactured</span>
+        <span class="sticker" id="growSticker" role="button" tabindex="0" aria-label="Grown, not manufactured — click for a botanical burst">Grown, not manufactured</span>
         <p>Living installations + Brand Activations</p>
     </div>
 </header>
@@ -1527,6 +1563,71 @@ document.addEventListener("click", function (e) {
         });
     }
 });
+
+/* Decorative pinata-style botanical burst from the hero sticker.
+   Reuses the site's leafColors palette so particles match the brand. */
+(function () {
+    const sticker = document.getElementById("growSticker");
+    if (!sticker) return;
+
+    function spawnLeafBurst() {
+        const rect = sticker.getBoundingClientRect();
+        const cx = rect.left + rect.width / 2;
+        const cy = rect.top + rect.height / 2;
+        const count = 15 + Math.floor(Math.random() * 11); // 15-25
+
+        for (let i = 0; i < count; i++) {
+            const leaf = document.createElement("div");
+            leaf.className = "leaf-burst";
+
+            const ang = Math.random() * Math.PI * 2;
+            const dist = 40 + Math.random() * 90;           // outward burst radius
+            const mx = Math.cos(ang) * dist;
+            const my = Math.sin(ang) * dist;
+            const gravity = 90 + Math.random() * 140;       // downward fall
+            const ex = mx * 1.35;
+            const ey = my * 1.05 + gravity;
+
+            const size = 8 + Math.random() * 8;
+            const color = leafColors[Math.floor(Math.random() * leafColors.length)];
+            const rm = (Math.random() * 240 - 120) + "deg";
+            const re = (Math.random() * 720 - 360) + "deg";
+            const dur = 1000 + Math.random() * 500;         // 1-1.5s
+
+            leaf.style.background = color;
+            leaf.style.width = size + "px";
+            leaf.style.height = size + "px";
+            leaf.style.setProperty("--x0", cx + "px");
+            leaf.style.setProperty("--y0", cy + "px");
+            leaf.style.setProperty("--xm", (cx + mx) + "px");
+            leaf.style.setProperty("--ym", (cy + my) + "px");
+            leaf.style.setProperty("--rm", rm);
+            leaf.style.setProperty("--xe", (cx + ex) + "px");
+            leaf.style.setProperty("--ye", (cy + ey) + "px");
+            leaf.style.setProperty("--re", re);
+            leaf.style.setProperty("--burst-dur", dur + "ms");
+
+            let removed = false;
+            const remove = function () {
+                if (removed) return;
+                removed = true;
+                if (leaf.parentNode) leaf.parentNode.removeChild(leaf);
+            };
+            leaf.addEventListener("animationend", remove);
+            setTimeout(remove, dur + 200); // safety net if animationend misfires
+
+            document.body.appendChild(leaf);
+        }
+    }
+
+    sticker.addEventListener("click", spawnLeafBurst);
+    sticker.addEventListener("keydown", function (e) {
+        if (e.key === "Enter" || e.key === " " || e.key === "Spacebar") {
+            e.preventDefault();
+            spawnLeafBurst();
+        }
+    });
+})();
 
 </script>
 
