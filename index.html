@@ -97,6 +97,13 @@ nav .links a {
 
 nav .links a:hover { opacity: 1; }
 
+nav .links a.active {
+    opacity: 1;
+    color: var(--moss);
+    border-bottom: 1px solid currentColor;
+    padding-bottom: 2px;
+}
+
 /* HERO */
 header {
     min-height: 100vh;
@@ -939,6 +946,51 @@ slider.oninput = function () {
     draw(this.value);
     triggerPopupFromSlider();
 };
+
+/* NAV: reliable smooth-scroll + scroll-spy.
+   Native hash-jump was landing on stale offsets after the web fonts swapped
+   in and reflowed the headings, so drive the scroll from JS instead. The
+   href="#id" attributes stay in place as a no-JS/accessibility fallback. */
+const navAnchors = Array.from(document.querySelectorAll('nav .wordmark, nav .links a'));
+
+navAnchors.forEach(function (anchor) {
+    anchor.addEventListener('click', function (e) {
+        const targetId = anchor.getAttribute('href');
+        const target = document.querySelector(targetId);
+        if (!target) return;
+        e.preventDefault();
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+});
+
+/* Scroll-spy: highlight the nav link for the section currently under the nav.
+   scroll-margin-top handles the fixed-nav offset for scrollIntoView natively,
+   so mirror that here by clipping the top of the observer root by --nav-h. */
+const navH = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--nav-h'), 10) || 0;
+const anchorById = {};
+navAnchors.forEach(function (anchor) {
+    anchorById[anchor.getAttribute('href').slice(1)] = anchor;
+});
+
+function setActiveSection(id) {
+    navAnchors.forEach(function (anchor) {
+        anchor.classList.toggle('active', anchor === anchorById[id]);
+    });
+}
+
+const spySections = ['top', 'about', 'work', 'contact']
+    .map(function (id) { return document.getElementById(id); })
+    .filter(Boolean);
+
+const navObserver = new IntersectionObserver(function (entries) {
+    entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+            setActiveSection(entry.target.id);
+        }
+    });
+}, { rootMargin: '-' + navH + 'px 0px -70% 0px', threshold: 0 });
+
+spySections.forEach(function (section) { navObserver.observe(section); });
 
 // initial render
 sizeCanvas();
