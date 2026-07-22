@@ -232,11 +232,11 @@ header p {
 
 @media (max-width: 760px) {
     header .leaf {
-        width: 340px;
+        width: 240px;
         max-width: 96vw;
         opacity: 0.6;
-        right: -80px;
-        bottom: -40px;
+        right: -70px;
+        bottom: -100px;
     }
 }
 
@@ -502,7 +502,7 @@ footer .deco-sticker {
    card-corner stickers are handled separately (clipped inside the card). */
 @media (max-width: 760px) {
     .deco-sticker[src$="sticker-theres-room-to-grow.webp"] {
-        top: auto !important; bottom: 44px !important; left: 6% !important; right: auto !important; width: 66px !important;
+        top: 14px !important; bottom: auto !important; left: 4% !important; right: auto !important; width: 58px !important;
     }
     .deco-sticker[src$="sticker-monstera.webp"] {
         top: 30px !important; bottom: auto !important; left: 5% !important; right: auto !important; width: 62px !important;
@@ -521,9 +521,6 @@ footer .deco-sticker {
     }
     .deco-sticker[src$="sticker-pothos-pot.webp"] {
         top: 10px !important; bottom: auto !important; left: auto !important; right: 4% !important; width: 48px !important;
-    }
-    .deco-sticker[src$="sticker-trailing-plant-pot.webp"] {
-        top: 150px !important; bottom: auto !important; left: auto !important; right: 4% !important; width: 58px !important;
     }
 }
 
@@ -971,7 +968,6 @@ footer .foot-copy {
 <header id="top">
     <div class="grain"></div>
     <img class="leaf" src="assets/leaf-monstera.webp" alt="" aria-hidden="true">
-    <img class="deco-sticker deco-sticker--hide-mobile" src="assets/sticker-theres-room-to-grow.webp" alt="" aria-hidden="true" style="top: 116px; right: 7%; width: 122px; transform: rotate(-7deg); opacity: 0.9;">
     <div class="content">
         <div class="logo-mark">Botanical Dubai</div>
         <span class="sticker" id="growSticker" role="button" tabindex="0" aria-label="Grown, not manufactured — click for a botanical burst">Grown, not manufactured</span>
@@ -981,6 +977,7 @@ footer .foot-copy {
 
 <section id="about">
     <img class="deco-sticker deco-sticker--hide-mobile" src="assets/sticker-monstera.webp" alt="" aria-hidden="true" style="top: 96px; left: 7%; width: 98px; transform: rotate(-5deg); opacity: 0.85;">
+    <img class="deco-sticker deco-sticker--hide-mobile" src="assets/sticker-pothos-pot.webp" alt="" aria-hidden="true" style="top: 60px; right: 7%; width: 92px; transform: rotate(-9deg); opacity: 0.85;">
     <img class="deco-sticker deco-sticker--hide-mobile" src="assets/sticker-spider-plant.webp" alt="" aria-hidden="true" style="bottom: 86px; right: 7%; width: 108px; transform: rotate(12deg); opacity: 0.85;">
     <div class="center">
         <span class="eyebrow">Our approach</span>
@@ -1023,12 +1020,13 @@ footer .foot-copy {
             <img class="card-watermark" src="assets/watermark-vera-bar-sketch.webp" alt="" aria-hidden="true">
             <button type="button" class="enquire-btn" data-project="Botanical Bar">Enquire about this →</button>
         </div>
-        <div class="card card--photo" tabindex="0">
+        <div class="card card--photo card--sticker" tabindex="0">
             <span class="tag">Grown on the table</span>
             <h3>Tablescape Design</h3>
             <p class="card-detail">An ongoing series of botanical tablescapes for private dining and events.</p>
             <span class="card-hint">Hover, focus or tap to view</span>
             <img class="card-photo" src="assets/work-tablescape.webp" alt="A tablescape of gerbera daisies, pink bougainvillea, lavender and radishes arranged on rough stone slabs — botanical table decor.">
+            <img class="deco-sticker-corner" src="assets/sticker-trailing-plant-pot.webp" alt="" aria-hidden="true" style="transform: rotate(5deg);">
             <button type="button" class="enquire-btn" data-project="Tablescape Design">Enquire about this →</button>
         </div>
         <div class="card card--photo card--sticker" tabindex="0">
@@ -1044,6 +1042,7 @@ footer .foot-copy {
 </section>
 
 <section class="press">
+    <img class="deco-sticker deco-sticker--hide-mobile" src="assets/sticker-theres-room-to-grow.webp" alt="" aria-hidden="true" style="top: 122px; left: 4%; width: 104px; transform: rotate(-7deg); opacity: 0.85;">
     <span class="press-label">As seen in</span>
     <div class="press-logos">
         <a class="press-logo" href="https://graziamagazine.com/me/articles/weekend-guide-dubai-july-17-to-19/" target="_blank" rel="noopener noreferrer" aria-label="View Grazia ME's feature on Botanical Dubai"><img src="assets/press-grazia-me.webp" alt="Grazia ME" loading="lazy" width="168" height="168"></a>
@@ -1126,8 +1125,6 @@ footer .foot-copy {
 
 <footer>
     <img class="deco-sticker deco-sticker--hide-mobile" src="assets/sticker-touch-moss.webp" alt="" aria-hidden="true" style="top: 34px; left: 6%; width: 88px; transform: rotate(8deg); opacity: 0.95;">
-    <img class="deco-sticker deco-sticker--hide-mobile" src="assets/sticker-pothos-pot.webp" alt="" aria-hidden="true" style="top: 40px; right: 7%; width: 76px; transform: rotate(-9deg); opacity: 0.95;">
-    <img class="deco-sticker deco-sticker--hide-mobile" src="assets/sticker-trailing-plant-pot.webp" alt="" aria-hidden="true" style="bottom: 26px; right: 10%; width: 104px; transform: rotate(5deg); opacity: 0.95;">
     <p class="foot-brand">Botanical Dubai</p>
     <hr class="foot-rule">
     <div class="foot-links">
