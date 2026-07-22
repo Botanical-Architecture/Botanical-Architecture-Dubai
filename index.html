@@ -406,6 +406,10 @@ section {
     box-shadow: 0 0 0 2px var(--mustard);
 }
 
+/* Services cards are flex columns, so keep the pill compact and left-aligned
+   to match how it sits on the (block-layout) Work cards. */
+.service .enquire-btn { align-self: flex-start; }
+
 /* AS SEEN IN */
 .press {
     background: var(--paper);
@@ -930,26 +934,31 @@ footer .foot-copy {
             <h3>Living Installations</h3>
             <p>Architectural botanical design for retail, F&amp;B, hospitality and brand spaces.</p>
             <span class="price">From AED 10,000</span>
+            <button type="button" class="enquire-btn" data-project="Living Installations">Enquire about this →</button>
         </div>
         <div class="service">
             <h3>Event Activations</h3>
             <p>Botanical Bar, Pot Your Own Plant, Pilates + Petals.</p>
             <span class="price">From AED 100 per guest</span>
+            <button type="button" class="enquire-btn" data-project="Event Activations">Enquire about this →</button>
         </div>
         <div class="service">
             <h3>Workshops</h3>
             <p>Terrarium Building, Ikebana, Learn to Propagate.</p>
             <span class="price">From AED 200 per guest</span>
+            <button type="button" class="enquire-btn" data-project="Workshops">Enquire about this →</button>
         </div>
         <div class="service">
             <h3>Table-scapes</h3>
             <p>Weddings, intimate dinners, corporate meetings.</p>
             <span class="price">From AED 2,500</span>
+            <button type="button" class="enquire-btn" data-project="Table-scapes">Enquire about this →</button>
         </div>
         <div class="service">
             <h3>Gifting</h3>
             <p>Single-stem bouquets, branded test-tube cuttings.</p>
             <span class="price">From AED 30 per unit</span>
+            <button type="button" class="enquire-btn" data-project="Gifting">Enquire about this →</button>
         </div>
     </div>
 </section>
