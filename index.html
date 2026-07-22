@@ -423,19 +423,39 @@ section {
     margin-bottom: 22px;
 }
 
-.press .press-names {
+.press .press-logos {
     display: flex;
     flex-wrap: wrap;
+    align-items: center;
     justify-content: center;
-    gap: 20px 48px;
+    gap: 24px 40px;
 }
 
-.press .press-names span {
-    font-family: 'Fraunces', serif;
-    font-style: italic;
-    font-size: clamp(18px, 2.4vw, 24px);
-    color: var(--moss-deep);
-    opacity: 0.75;
+.press .press-logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: clamp(104px, 15vw, 168px);
+    height: clamp(104px, 15vw, 168px);
+    padding: 18px;
+    background: #fff;
+    border-radius: 20px;
+    box-shadow: 0 8px 20px rgba(38, 47, 26, 0.10);
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.press .press-logo img {
+    max-width: 100%;
+    max-height: 100%;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+    display: block;
+}
+
+.press .press-logo:hover {
+    transform: translateY(-5px) scale(1.04);
+    box-shadow: 0 18px 34px rgba(38, 47, 26, 0.18);
 }
 
 /* SERVICES */
@@ -893,10 +913,10 @@ footer .foot-copy {
 
 <section class="press">
     <span class="press-label">As seen in</span>
-    <div class="press-names">
-        <span>Grazia ME</span>
-        <span>TimeOut Dubai</span>
-        <span>Dubai Pike</span>
+    <div class="press-logos">
+        <span class="press-logo"><img src="assets/press-grazia-me.webp" alt="Grazia ME" loading="lazy" width="168" height="168"></span>
+        <span class="press-logo"><img src="assets/press-timeout-dubai.webp" alt="TimeOut Dubai" loading="lazy" width="168" height="168"></span>
+        <span class="press-logo"><img src="assets/press-dubai-pike.webp" alt="Dubai Pike" loading="lazy" width="168" height="168"></span>
     </div>
 </section>
 
