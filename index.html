@@ -137,9 +137,9 @@ header .leaf {
     position: absolute;
     right: -60px;
     bottom: -80px;
-    width: 460px;
+    width: 500px;
     max-width: 55vw;
-    opacity: 0.85;
+    opacity: 0.9;
     transform: rotate(-8deg);
     pointer-events: none;
     z-index: 1;
@@ -232,10 +232,11 @@ header p {
 
 @media (max-width: 760px) {
     header .leaf {
-        width: 260px;
-        opacity: 0.3;
-        right: -90px;
-        bottom: -60px;
+        width: 340px;
+        max-width: 96vw;
+        opacity: 0.6;
+        right: -80px;
+        bottom: -40px;
     }
 }
 
@@ -492,12 +493,38 @@ footer .deco-sticker {
     user-select: none;
 }
 
-/* Free-floating section accents flank centered headings / sit in side margins,
-   which only exist on wider viewports — hide them on narrow screens so they
-   can't overlap or overflow the full-width mobile text. The card-corner
-   stickers stay (they're clipped inside the card, so always safe). */
+/* Free-floating section accents flank centered headings / sit in side margins.
+   On narrow (phone) screens their desktop positions/sizes would overlap the
+   full-width text, so instead of hiding them we shrink each one and tuck it
+   into the open margin of its section — keeping the stickers "present" on
+   mobile without ever covering copy, buttons or one another. Inline styles
+   hold the desktop values, so these mobile overrides need !important. The
+   card-corner stickers are handled separately (clipped inside the card). */
 @media (max-width: 760px) {
-    .deco-sticker--hide-mobile { display: none; }
+    .deco-sticker[src$="sticker-theres-room-to-grow.webp"] {
+        top: auto !important; bottom: 44px !important; left: 6% !important; right: auto !important; width: 66px !important;
+    }
+    .deco-sticker[src$="sticker-monstera.webp"] {
+        top: 30px !important; bottom: auto !important; left: 5% !important; right: auto !important; width: 62px !important;
+    }
+    .deco-sticker[src$="sticker-spider-plant.webp"] {
+        top: auto !important; bottom: 34px !important; left: auto !important; right: 6% !important; width: 62px !important;
+    }
+    .deco-sticker[src$="sticker-nourish-to-flourish.webp"] {
+        top: 26px !important; bottom: auto !important; left: auto !important; right: 5% !important; width: 54px !important;
+    }
+    .deco-sticker[src$="sticker-soft-and-pretty.webp"] {
+        top: 46px !important; bottom: auto !important; left: 5% !important; right: auto !important; width: 60px !important;
+    }
+    .deco-sticker[src$="sticker-touch-moss.webp"] {
+        top: 12px !important; bottom: auto !important; left: 4% !important; right: auto !important; width: 56px !important;
+    }
+    .deco-sticker[src$="sticker-pothos-pot.webp"] {
+        top: 10px !important; bottom: auto !important; left: auto !important; right: 4% !important; width: 48px !important;
+    }
+    .deco-sticker[src$="sticker-trailing-plant-pot.webp"] {
+        top: 150px !important; bottom: auto !important; left: auto !important; right: 4% !important; width: 58px !important;
+    }
 }
 
 /* AS SEEN IN */
