@@ -406,6 +406,10 @@ section {
     box-shadow: 0 0 0 2px var(--mustard);
 }
 
+/* Services cards are flex columns, so keep the pill compact and left-aligned
+   to match how it sits on the (block-layout) Work cards. */
+.service .enquire-btn { align-self: flex-start; }
+
 /* AS SEEN IN */
 .press {
     background: var(--paper);
@@ -423,19 +427,39 @@ section {
     margin-bottom: 22px;
 }
 
-.press .press-names {
+.press .press-logos {
     display: flex;
     flex-wrap: wrap;
+    align-items: center;
     justify-content: center;
-    gap: 20px 48px;
+    gap: 24px 40px;
 }
 
-.press .press-names span {
-    font-family: 'Fraunces', serif;
-    font-style: italic;
-    font-size: clamp(18px, 2.4vw, 24px);
-    color: var(--moss-deep);
-    opacity: 0.75;
+.press .press-logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: clamp(104px, 15vw, 168px);
+    height: clamp(104px, 15vw, 168px);
+    padding: 18px;
+    background: #fff;
+    border-radius: 20px;
+    box-shadow: 0 8px 20px rgba(38, 47, 26, 0.10);
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.press .press-logo img {
+    max-width: 100%;
+    max-height: 100%;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+    display: block;
+}
+
+.press .press-logo:hover {
+    transform: translateY(-5px) scale(1.04);
+    box-shadow: 0 18px 34px rgba(38, 47, 26, 0.18);
 }
 
 /* SERVICES */
@@ -893,10 +917,10 @@ footer .foot-copy {
 
 <section class="press">
     <span class="press-label">As seen in</span>
-    <div class="press-names">
-        <span>Grazia ME</span>
-        <span>TimeOut Dubai</span>
-        <span>Dubai Pike</span>
+    <div class="press-logos">
+        <span class="press-logo"><img src="assets/press-grazia-me.webp" alt="Grazia ME" loading="lazy" width="168" height="168"></span>
+        <span class="press-logo"><img src="assets/press-timeout-dubai.webp" alt="TimeOut Dubai" loading="lazy" width="168" height="168"></span>
+        <span class="press-logo"><img src="assets/press-dubai-pike.webp" alt="Dubai Pike" loading="lazy" width="168" height="168"></span>
     </div>
 </section>
 
@@ -910,26 +934,31 @@ footer .foot-copy {
             <h3>Living Installations</h3>
             <p>Architectural botanical design for retail, F&amp;B, hospitality and brand spaces.</p>
             <span class="price">From AED 10,000</span>
+            <button type="button" class="enquire-btn" data-project="Living Installations">Enquire about this →</button>
         </div>
         <div class="service">
             <h3>Event Activations</h3>
             <p>Botanical Bar, Pot Your Own Plant, Pilates + Petals.</p>
             <span class="price">From AED 100 per guest</span>
+            <button type="button" class="enquire-btn" data-project="Event Activations">Enquire about this →</button>
         </div>
         <div class="service">
             <h3>Workshops</h3>
             <p>Terrarium Building, Ikebana, Learn to Propagate.</p>
             <span class="price">From AED 200 per guest</span>
+            <button type="button" class="enquire-btn" data-project="Workshops">Enquire about this →</button>
         </div>
         <div class="service">
             <h3>Table-scapes</h3>
             <p>Weddings, intimate dinners, corporate meetings.</p>
             <span class="price">From AED 2,500</span>
+            <button type="button" class="enquire-btn" data-project="Table-scapes">Enquire about this →</button>
         </div>
         <div class="service">
             <h3>Gifting</h3>
             <p>Single-stem bouquets, branded test-tube cuttings.</p>
             <span class="price">From AED 30 per unit</span>
+            <button type="button" class="enquire-btn" data-project="Gifting">Enquire about this →</button>
         </div>
     </div>
 </section>
