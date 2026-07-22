@@ -1,0 +1,33 @@
+# Botanical Architecture Dubai
+
+> An experiential design studio in Dubai (also known as Botanical Dubai) that creates immersive botanical installations, brand activations, hands-on workshops, and bespoke event gifting — treating plants and florals as a creative and branding medium, not decoration.
+
+## About
+
+Every concept is custom-designed around the client's brand, audience, and space, ranging from a single feature installation to large-scale architectural work. Botanical Dubai works with retail, F&B, hospitality, and brand spaces, as well as weddings, corporate events, and intimate dinners.
+
+## Services and Starting Prices
+
+- **Living Installations** — architectural botanical design for retail, F&B, hospitality, and brand spaces. From AED 10,000 (Brand Living Art), AED 15,000 (Shop Design), AED 25,000 (Semi-Permanent Architectural Design).
+- **Event Activations** — e.g. Botanical Bar, Pot Your Own Plant, Pilates + Petals. From AED 100 per guest.
+- **Workshops** — e.g. Terrarium Building, Ikebana, Learn to Propagate. From AED 200 per guest.
+- **Table-scapes** — weddings, intimate dinners, corporate meetings. From AED 2,500.
+- **Gifting** — single-stem bouquets, branded test-tube cuttings. From AED 30 per unit.
+
+## Design Scope Budget Slider
+
+The live website includes an interactive "Design Scope" budget slider (AED 2,000–50,000+) that lets visitors explore what different budgets can achieve.
+
+## Contact
+
+- Email: botanical.dubai@gmail.com
+- Instagram: @botanical.dubai
+- Phone: +971 52 314 5576
+
+## Site Sections
+
+- Hero (#top)
+- Work / project gallery (#work)
+- About (#about)
+- Design Scope budget slider
+- Contact (#contact)
