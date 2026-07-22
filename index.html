@@ -318,31 +318,6 @@ section {
     color: var(--moss-deep);
 }
 
-.card .mushroom {
-    position: absolute;
-    right: -22px;
-    bottom: -26px;
-    width: 110px;
-    opacity: 0.16;
-    pointer-events: none;
-}
-
-/* Canvas-drawn corner watermarks for the text-only work cards. Mirrors the
-   .mushroom treatment, but resets the global `canvas` rule (full width /
-   460px / cream fill) since these are small transparent corner motifs. */
-.card .card-illus {
-    position: absolute;
-    right: -22px;
-    bottom: -26px;
-    width: 130px;
-    height: 150px;
-    max-width: none;
-    background: transparent;
-    border-radius: 0;
-    opacity: 0.16;
-    pointer-events: none;
-}
-
 /* Real project photos: prominent, cover-cropped, echoing the card's own
    asymmetric border-radius (not a faint corner watermark like the illus). */
 .card .card-detail {
@@ -360,6 +335,13 @@ section {
     object-fit: cover;
     border-radius: 20px 6px 20px 6px;
     margin-top: 18px;
+}
+
+/* Private Commissions is a tall portrait shot with the installation (plinth,
+   moss, plants) in the lower half — anchor the cover-crop to the base so the
+   card shows the work, not the empty gallery ceiling. */
+.card .card-photo[src*="work-private-commission"] {
+    object-position: center bottom;
 }
 
 /* Real-photo cards keep their photo hidden until the visitor engages —
@@ -911,10 +893,12 @@ footer .foot-copy {
         <h2>Nourish to flourish</h2>
     </div>
     <div class="grid">
-        <div class="card">
+        <div class="card card--photo" tabindex="0">
             <span class="tag">Slow &amp; steady wins the race</span>
             <h3>Terrarium Study</h3>
-            <img class="mushroom" src="assets/illustration-mushroom.webp" alt="" aria-hidden="true">
+            <p class="card-detail">Hands-on terrarium builds — moss, soil, and glass, layered live.</p>
+            <span class="card-hint">Hover, focus or tap to view</span>
+            <img class="card-photo" src="assets/work-terrarium-study.webp" alt="Hands assembling terrariums in large glass vessels with moss, soil and tools during a terrarium-building workshop.">
             <button type="button" class="enquire-btn" data-project="Terrarium Study">Enquire about this →</button>
         </div>
         <div class="card card--photo" tabindex="0">
@@ -941,11 +925,12 @@ footer .foot-copy {
             <img class="card-photo" src="assets/work-tablescape.webp" alt="A styled tablescape of gerbera daisies, tomatoes and a bell pepper arranged as botanical table decor.">
             <button type="button" class="enquire-btn" data-project="Tablescape Design">Enquire about this →</button>
         </div>
-        <div class="card">
+        <div class="card card--photo" tabindex="0">
             <span class="tag">Made to bloom</span>
             <h3>Private Commissions</h3>
             <p class="card-detail">Bespoke work for private clients and spaces — inquire for your own.</p>
-            <canvas class="card-illus" data-illus="private" aria-hidden="true"></canvas>
+            <span class="card-hint">Hover, focus or tap to view</span>
+            <img class="card-photo" src="assets/work-private-commission.webp" alt="A living installation in a white gallery — moss cascading down a concrete plinth beside a tall plant reaching toward the ceiling, among circular wall art.">
             <button type="button" class="enquire-btn" data-project="Private Commissions">Enquire about this →</button>
         </div>
     </div>
@@ -1508,40 +1493,6 @@ spySections.forEach(function (section) { navObserver.observe(section); });
 // initial render
 sizeCanvas();
 draw(1);
-
-/* Corner watermarks for the three text-only work cards. Reuses the same
-   faceted-bloom system as the Design Scope slider (simplified/smaller), drawn
-   once into each card's small <canvas> with a distinct parameter set so no two
-   cards (or Terrarium's mushroom) look alike. */
-const cardIllusConfig = {
-    living:  { facets: 5, blooms: 1, bloomSides: 6, spread: 90,  fill: 0.72 }, // upward starter
-    desert:  { facets: 3, blooms: 0, bloomSides: 6, spread: 68,  fill: 0.72 }, // sparse / structural
-    private: { facets: 9, blooms: 3, bloomSides: 8, spread: 150, fill: 0.92 }  // full, premium statement
-};
-
-function drawCardWatermark(canvasEl) {
-    const config = cardIllusConfig[canvasEl.dataset.illus];
-    if (!config) return;
-
-    const dpr = window.devicePixelRatio || 1;
-    const rect = canvasEl.getBoundingClientRect();
-    const w = rect.width;
-    const h = rect.height;
-    if (w === 0 || h === 0) return;
-
-    const cctx = canvasEl.getContext("2d");
-    canvasEl.width = Math.round(w * dpr);
-    canvasEl.height = Math.round(h * dpr);
-    cctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-    cctx.clearRect(0, 0, w, h);
-
-    // Sit the base near the bottom of the canvas; the CSS offset bleeds the
-    // lower edge off the card corner, matching the .mushroom watermark.
-    const rng = makeRng(config.facets * 131 + config.blooms * 7 + 3);
-    drawFacetComposition(cctx, w / 2, h - 10, config, h, rng);
-}
-
-document.querySelectorAll(".card-illus").forEach(drawCardWatermark);
 
 /* Touch parity for the real-photo cards: hover/:focus-within already reveal
    the photo via CSS, but touch devices have no hover — so tapping a card
