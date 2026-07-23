@@ -1244,7 +1244,7 @@ footer .foot-copy {
         <div class="popup-step" id="popup-step-1">
             <div class="popup-ref" id="popup-ref" data-testid="popup-ref"></div>
             <div class="popup-title">What's your proposal?</div>
-            <div class="popup-sub">Tell us about the space or vision you have in mind</div>
+            <div class="popup-sub">Tell us about the space or vision you have in mind (optional)</div>
 
             <label for="proposal" class="visually-hidden">Tell us about your project</label>
             <textarea id="proposal" placeholder="e.g. A courtyard entrance with layered greenery..."></textarea>
@@ -1347,13 +1347,9 @@ document.querySelectorAll(".enquire-btn").forEach(function (btn) {
 });
 
 function nextStep() {
-    const proposal = document.getElementById("proposal").value;
-
-    if (!proposal) {
-        alert("Tell us a little about your proposal");
-        return;
-    }
-
+    /* The proposal textarea is optional — always advance to the budget step.
+       Whatever the visitor typed (if anything) still flows into buildMailto()
+       via sendProposal(). */
     document.getElementById("popup-step-1").style.display = "none";
     document.getElementById("popup-step-2").style.display = "block";
 }
@@ -1374,7 +1370,8 @@ function buildMailto(proposal, budget, project) {
     if (project) subject += " (Re: " + project + ")";
     let body = "";
     if (project) body += "Re: " + project + "\n\n";
-    body += "Proposal:\n" + proposal + "\n\nEstimated budget: " + budget;
+    if (proposal) body += "Proposal:\n" + proposal + "\n\n";
+    body += "Estimated budget: " + budget;
     return "mailto:botanical.dubai@gmail.com?subject=" + encodeURIComponent(subject) + "&body=" + encodeURIComponent(body);
 }
 
