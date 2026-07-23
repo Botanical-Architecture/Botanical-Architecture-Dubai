@@ -370,11 +370,13 @@ section {
     margin-top: 18px;
 }
 
-/* Private Commissions is a tall portrait shot with the installation (plinth,
-   moss, plants) in the lower half — anchor the cover-crop to the base so the
-   card shows the work, not the empty gallery ceiling. */
+/* Private Commissions is a tall portrait shot (1259x1857) — owner wants the
+   whole photo shown, no crop, accepting that this card renders taller than its
+   siblings. Render at natural aspect ratio instead of the fixed 380px box. */
 .card .card-photo[src*="work-private-commission"] {
-    object-position: center 35%;
+    height: auto;
+    aspect-ratio: 1259 / 1857;
+    object-fit: contain;
 }
 
 /* Real-photo cards keep their photo hidden until the visitor engages —
@@ -416,6 +418,14 @@ section {
     visibility: visible;
     transition: opacity 0.35s ease, max-height 0.45s ease,
                 margin-top 0.45s ease, visibility 0s;
+}
+
+/* Private Commissions renders taller than 400px at its natural aspect ratio;
+   lift the revealed-state cap so its auto height is never clipped. */
+.card--photo:hover .card-photo[src*="work-private-commission"],
+.card--photo:focus-within .card-photo[src*="work-private-commission"],
+.card--photo.revealed .card-photo[src*="work-private-commission"] {
+    max-height: 3000px;
 }
 
 .card--photo:hover .card-hint,
