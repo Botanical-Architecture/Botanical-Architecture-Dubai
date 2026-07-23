@@ -232,15 +232,36 @@ header p {
 
 @media (max-width: 760px) {
     header {
-        min-height: 118vh;
+        min-height: 100vh;
+        flex-direction: column;
+        gap: 24px;
+    }
+    header .content {
+        order: 1;
     }
     header .leaf {
+        /* Flow-based: the leaf now sits in normal document flow directly
+           under the tagline instead of being pinned to a guessed pixel `top`
+           (the previous fixed `top:392px` produced a ~500px gap on real
+           iOS Safari). The leaf-monstera webp has ~15% transparent padding
+           on top; at the rendered width (96vw on phones) that padding is
+           ~28vw of empty space, which is what pushed the visible leaf far
+           below the tagline. The negative margin-top cancels that padding in
+           the same unit it scales in (vw), so the VISIBLE clearance stays a
+           near-constant ~24px across viewport sizes. max(...,-157px) caps the
+           pull once the width caps at 560px (viewport >~561px) so wider
+           screens don't over-pull into an overlap. */
+        position: static;
+        order: 2;
+        align-self: flex-end;
         width: 560px;
         max-width: 96vw;
         opacity: 0.6;
-        right: -70px;
-        top: 392px;
+        right: auto;
+        top: auto;
         bottom: auto;
+        margin-top: max(-28vw, -157px);
+        margin-right: -70px;
     }
 }
 
