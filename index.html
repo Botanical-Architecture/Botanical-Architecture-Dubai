@@ -1240,20 +1240,9 @@ footer .foot-copy {
 
         <button class="close-btn" id="popup-close" data-testid="popup-close" onclick="closePopup()">×</button>
 
-        <!-- STEP 1: proposal -->
+        <!-- STEP 1: budget -->
         <div class="popup-step" id="popup-step-1">
             <div class="popup-ref" id="popup-ref" data-testid="popup-ref"></div>
-            <div class="popup-title">What's your proposal?</div>
-            <div class="popup-sub">Tell us about the space or vision you have in mind (optional)</div>
-
-            <label for="proposal" class="visually-hidden">Tell us about your project</label>
-            <textarea id="proposal" placeholder="e.g. A courtyard entrance with layered greenery..."></textarea>
-
-            <button class="primary-btn" id="popup-next" data-testid="popup-next" onclick="nextStep()">Next</button>
-        </div>
-
-        <!-- STEP 2: budget -->
-        <div class="popup-step" id="popup-step-2" style="display:none;">
             <div class="popup-title">What's your estimated budget?</div>
             <div class="popup-sub">This helps us propose the right installation and price</div>
 
@@ -1261,6 +1250,17 @@ footer .foot-copy {
             <input type="text" id="budget" placeholder="e.g. AED 20,000">
 
             <div class="budget-chips" id="budget-chips"></div>
+
+            <button class="primary-btn" id="popup-next" data-testid="popup-next" onclick="nextStep()">Next</button>
+        </div>
+
+        <!-- STEP 2: proposal -->
+        <div class="popup-step" id="popup-step-2" style="display:none;">
+            <div class="popup-title">What's your proposal?</div>
+            <div class="popup-sub">Tell us about the space or vision you have in mind (optional)</div>
+
+            <label for="proposal" class="visually-hidden">Tell us about your project</label>
+            <textarea id="proposal" placeholder="e.g. A courtyard entrance with layered greenery..."></textarea>
 
             <button class="primary-btn" id="popup-send" data-testid="popup-send" onclick="sendProposal()">Send</button>
             <button class="back-btn" id="popup-back" data-testid="popup-back" onclick="prevStep()">Back</button>
@@ -1347,9 +1347,14 @@ document.querySelectorAll(".enquire-btn").forEach(function (btn) {
 });
 
 function nextStep() {
-    /* The proposal textarea is optional — always advance to the budget step.
-       Whatever the visitor typed (if anything) still flows into buildMailto()
-       via sendProposal(). */
+    /* Budget is required business information — block advancing to the
+       (optional) proposal step until it's provided (typed or chip-selected).
+       Alert wording matches sendProposal()'s budget check for consistency. */
+    const budget = document.getElementById("budget").value;
+    if (!budget) {
+        alert("Enter an estimated budget");
+        return;
+    }
     document.getElementById("popup-step-1").style.display = "none";
     document.getElementById("popup-step-2").style.display = "block";
 }
@@ -1370,8 +1375,8 @@ function buildMailto(proposal, budget, project) {
     if (project) subject += " (Re: " + project + ")";
     let body = "";
     if (project) body += "Re: " + project + "\n\n";
-    if (proposal) body += "Proposal:\n" + proposal + "\n\n";
     body += "Estimated budget: " + budget;
+    if (proposal) body += "\n\nProposal:\n" + proposal;
     return "mailto:botanical.dubai@gmail.com?subject=" + encodeURIComponent(subject) + "&body=" + encodeURIComponent(body);
 }
 
