@@ -232,7 +232,14 @@ header p {
 
 @media (max-width: 760px) {
     header {
-        min-height: 100vh;
+        /* Hug the actual content height. The desktop rule sets min-height:80vh
+           and the earlier mobile fix forced min-height:100vh to "make room" for
+           the flowed leaf, but the flow layout already sizes the header to its
+           content (nav clearance + heading + badge + tagline + leaf + padding).
+           Forcing a viewport-height minimum left a large empty cream band after
+           the leaf on tall phones, so drop the minimum and let content decide;
+           the header's 80px bottom padding keeps it off the About section. */
+        min-height: auto;
         flex-direction: column;
         gap: 24px;
     }
