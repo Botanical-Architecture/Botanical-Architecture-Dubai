@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Botanical Architecture Dubai</title>
+<title>Botanical Dubai</title>
 <meta name="description" content="Experiential botanical design studio in Dubai — living installations, brand activations, workshops, table-scapes and event gifting. Grown, not manufactured.">
 
 <link rel="canonical" href="https://botanical-architecture.github.io/Botanical-Architecture-Dubai/">
@@ -11,7 +11,7 @@
 
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://botanical-architecture.github.io/Botanical-Architecture-Dubai/">
-<meta property="og:title" content="Botanical Architecture Dubai">
+<meta property="og:title" content="Botanical Dubai">
 <meta property="og:description" content="Experiential botanical design studio in Dubai — living installations, brand activations, workshops, table-scapes and event gifting. Grown, not manufactured.">
 <meta property="og:image" content="https://botanical-architecture.github.io/Botanical-Architecture-Dubai/assets/work-rair-installation.webp">
 
@@ -397,61 +397,6 @@ section {
     object-fit: contain;
 }
 
-/* Real-photo cards keep their photo hidden until the visitor engages —
-   revealed on hover, keyboard focus (:focus-within, card is tabindex=0), or a
-   tap toggle (.revealed added by JS for touch devices with no hover). */
-.card--photo { cursor: pointer; }
-
-.card--photo:focus-visible {
-    outline: 2px solid var(--moss);
-    outline-offset: 3px;
-}
-
-.card--photo .card-hint {
-    display: inline-block;
-    margin-top: 14px;
-    font-size: 10px;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-    color: var(--moss);
-    opacity: 0.5;
-    transition: opacity 0.3s ease;
-}
-
-.card--photo .card-photo {
-    margin-top: 0;
-    max-height: 0;
-    opacity: 0;
-    visibility: hidden;
-    transition: opacity 0.35s ease, max-height 0.45s ease,
-                margin-top 0.45s ease, visibility 0s linear 0.45s;
-}
-
-.card--photo:hover .card-photo,
-.card--photo:focus-within .card-photo,
-.card--photo.revealed .card-photo {
-    max-height: 400px;
-    margin-top: 18px;
-    opacity: 1;
-    visibility: visible;
-    transition: opacity 0.35s ease, max-height 0.45s ease,
-                margin-top 0.45s ease, visibility 0s;
-}
-
-/* Private Commissions renders taller than 400px at its natural aspect ratio;
-   lift the revealed-state cap so its auto height is never clipped. */
-.card--photo:hover .card-photo[src*="work-private-commission"],
-.card--photo:focus-within .card-photo[src*="work-private-commission"],
-.card--photo.revealed .card-photo[src*="work-private-commission"] {
-    max-height: 3000px;
-}
-
-.card--photo:hover .card-hint,
-.card--photo:focus-within .card-hint,
-.card--photo.revealed .card-hint {
-    opacity: 0;
-}
-
 /* Botanical Bar card only: a faint pencil-sketch concept of the Botanical Bar setup,
    pinned into the bottom-right corner and bleeding off the edge (clipped by the
    card's overflow:hidden + rounded corner). isolation:isolate contains the
@@ -474,9 +419,8 @@ section {
     border-radius: 0;
 }
 
-/* "Enquire about this" control on every Work card. On the reveal-photo cards
-   it sits above the tap-to-reveal photo and stops its click from toggling the
-   reveal (handled in JS). z-index keeps it above corner watermarks. */
+/* "Enquire about this" control on every Work card.
+   z-index keeps it above corner watermarks. */
 .enquire-btn {
     display: inline-block;
     position: relative;
@@ -843,8 +787,8 @@ footer .foot-copy {
 <nav>
     <a class="wordmark" href="#top">Botanical Dubai</a>
     <div class="links">
-        <a href="#work">Work</a>
         <a href="#about">About</a>
+        <a href="#work">Work</a>
         <a href="#contact">Contact</a>
     </div>
 </nav>
@@ -864,6 +808,8 @@ footer .foot-copy {
     <div class="center">
         <span class="eyebrow">Our approach</span>
         <h2>Designing spatial botanical systems</h2>
+        <p>Botanical Dubai is a Dubai-based botanical and spatial design studio. We work with living plants as a material — grown, not manufactured — shaping spaces for retail, F&amp;B, hospitality, brands and private clients.</p>
+        <p>Our work spans living installations, event activations and workshops, through to table-scapes and botanical gifting — from a permanent architectural centrepiece to a hands-on session or a single stem.</p>
         <p>Each installation is built as a spatial composition, not a product.</p>
     </div>
 </section>
@@ -904,46 +850,36 @@ footer .foot-copy {
         <h2>Previous Work</h2>
     </div>
     <div class="grid">
-        <div class="card card--photo card--sticker" tabindex="0">
+        <div class="card card--photo card--sticker">
             <span class="tag">Slow &amp; steady wins the race</span>
             <h3>Terrarium Study</h3>
-            <p class="card-detail">Hands-on terrarium builds — moss, soil, and glass, layered live.</p>
-            <span class="card-hint">Hover, focus or tap to view</span>
-            <img class="card-photo" src="assets/work-terrarium-study.webp" alt="Hands assembling terrariums in large glass vessels with moss, soil and tools during a terrarium-building workshop.">
+            <p class="card-detail">Hands-on terrarium builds — moss, soil, and glass, layered live.</p>            <img class="card-photo" src="assets/work-terrarium-study.webp" alt="Hands assembling terrariums in large glass vessels with moss, soil and tools during a terrarium-building workshop.">
             <img class="deco-sticker-corner" src="assets/sticker-slow-steady.webp" alt="" aria-hidden="true" style="transform: rotate(6deg);">
             <a class="enquire-btn" href="https://wa.me/971523145576?text=Hi%21%20I%27m%20interested%20in%20the%20Terrarium%20Study%20project." target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation()">Enquire about the Terrarium Study →</a>
         </div>
-        <div class="card card--photo" tabindex="0">
+        <div class="card card--photo">
             <span class="tag">Light, sound, scent</span>
             <h3>RAIR Essential Oils</h3>
-            <p class="card-detail">An immersive activation at Esque Gallery, Dubai — biophilic architecture, light and scent.</p>
-            <span class="card-hint">Hover, focus or tap to view</span>
-            <img class="card-photo" src="assets/work-rair-installation.webp" alt="A tall cactus beside a lit candle and smoking incense-bowl centrepiece on stone plinths dressed with moss — the RAIR installation at Esque Gallery, Dubai.">
+            <p class="card-detail">An immersive activation at Esque Gallery, Dubai — biophilic architecture, light and scent.</p>            <img class="card-photo" src="assets/work-rair-installation.webp" alt="A tall cactus beside a lit candle and smoking incense-bowl centrepiece on stone plinths dressed with moss — the RAIR installation at Esque Gallery, Dubai.">
             <a class="enquire-btn" href="https://wa.me/971523145576?text=Hi%21%20I%27m%20interested%20in%20the%20RAIR%20Essential%20Oils%20project." target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation()">Enquire about RAIR Essential Oils →</a>
         </div>
-        <div class="card card--photo card--watermark" tabindex="0">
+        <div class="card card--photo card--watermark">
             <span class="tag">Fresh stems, new menu</span>
             <h3>Botanical Bar</h3>
-            <p class="card-detail">An ongoing Botanical Bar residency — a rotating fresh-stem menu for guests.</p>
-            <span class="card-hint">Hover, focus or tap to view</span>
-            <img class="card-photo" src="assets/work-vera-wellness.webp" alt="The Botanical Bar counter — a branded booth lined with buckets of fresh flowers and a florist arranging a bouquet behind it.">
+            <p class="card-detail">An ongoing Botanical Bar residency — a rotating fresh-stem menu for guests.</p>            <img class="card-photo" src="assets/work-vera-wellness.webp" alt="The Botanical Bar counter — a branded booth lined with buckets of fresh flowers and a florist arranging a bouquet behind it.">
             <img class="card-watermark" src="assets/watermark-vera-bar-sketch.webp" alt="" aria-hidden="true">
             <a class="enquire-btn" href="https://wa.me/971523145576?text=Hi%21%20I%27m%20interested%20in%20the%20Botanical%20Bar%20project." target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation()">Enquire about the Botanical Bar →</a>
         </div>
-        <div class="card card--photo card--sticker" tabindex="0">
+        <div class="card card--photo card--sticker">
             <span class="tag">Grown on the table</span>
             <h3>Tablescape Design</h3>
-            <p class="card-detail">An ongoing series of botanical tablescapes for private dining and events.</p>
-            <span class="card-hint">Hover, focus or tap to view</span>
-            <img class="card-photo" src="assets/work-tablescape.webp" alt="A tablescape of orange gerbera daisies, vine tomatoes, a red bell pepper and dill fronds arranged on a wood table — botanical table decor.">
+            <p class="card-detail">An ongoing series of botanical tablescapes for private dining and events.</p>            <img class="card-photo" src="assets/work-tablescape.webp" alt="A tablescape of orange gerbera daisies, vine tomatoes, a red bell pepper and dill fronds arranged on a wood table — botanical table decor.">
             <a class="enquire-btn" href="https://wa.me/971523145576?text=Hi%21%20I%27m%20interested%20in%20the%20Tablescape%20Design%20project." target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation()">Enquire about Tablescape Design →</a>
         </div>
-        <div class="card card--photo card--sticker" tabindex="0">
+        <div class="card card--photo card--sticker">
             <span class="tag">Made to bloom</span>
             <h3>Private Commissions</h3>
-            <p class="card-detail">Bespoke work for private clients and spaces — inquire for your own.</p>
-            <span class="card-hint">Hover, focus or tap to view</span>
-            <img class="card-photo" src="assets/work-private-commission.webp" alt="A gallery installation — a tall arching feathery branch rising toward the ceiling above a moss-draped concrete plinth, with potted greenery and moss spreading across the white gallery floor.">
+            <p class="card-detail">Bespoke work for private clients and spaces — inquire for your own.</p>            <img class="card-photo" src="assets/work-private-commission.webp" alt="A gallery installation — a tall arching feathery branch rising toward the ceiling above a moss-draped concrete plinth, with potted greenery and moss spreading across the white gallery floor.">
             <a class="enquire-btn" href="https://wa.me/971523145576?text=Hi%21%20I%27m%20interested%20in%20the%20Private%20Commissions%20project." target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation()">Enquire about Private Commissions →</a>
         </div>
     </div>
@@ -1013,7 +949,7 @@ footer .foot-copy {
 
     <div class="scope-title" id="title">AED 2,000</div>
 
-    <div class="scope-desc" id="desc">One feature installation, designed and placed for your space.</div>
+    <div class="scope-desc" id="desc">A hands-on botanical workshop, tailored to your group.</div>
 
     <div class="canvas-frame">
         <canvas id="canvas"></canvas>
@@ -1044,16 +980,16 @@ footer .foot-copy {
         <a href="mailto:botanical.dubai@gmail.com">botanical.dubai@gmail.com</a>
         <a href="https://www.instagram.com/botanical.dubai" target="_blank" rel="noopener">@botanical.dubai</a>
     </div>
-    <div class="foot-copy">© 2026 Botanical Architecture Dubai</div>
+    <div class="foot-copy">© 2026 Botanical Dubai</div>
 </footer>
 
 <script>
 
 /* SLIDER DATA */
 const data = {
-    1: ["AED 2,000", "One feature installation, designed and placed for your space."],
-    2: ["AED 5,000", "A styled botanical piece for a photoshoot."],
-    3: ["AED 10,000", "Your first Brand Living Art piece."],
+    1: ["AED 2,000", "A hands-on botanical workshop, tailored to your group."],
+    2: ["AED 5,000", "A styled botanical activation for your event or brand moment."],
+    3: ["AED 10,000", "Your first living installation, designed for your space."],
     4: ["AED 15,000", "A living scheme designed for your shop."],
     5: ["AED 20,000", "A fuller shop scheme, in first bloom."],
     6: ["AED 25,000", "Semi-permanent architectural planting, scoped per brief."],
@@ -1286,27 +1222,6 @@ spySections.forEach(function (section) { navObserver.observe(section); });
 // initial render
 sizeCanvas();
 draw(1);
-
-/* Touch parity for the real-photo cards: hover/:focus-within already reveal
-   the photo via CSS, but touch devices have no hover — so tapping a card
-   toggles a .revealed class. Tapping another card or outside clears others. */
-document.querySelectorAll(".card--photo").forEach(function (card) {
-    card.addEventListener("click", function () {
-        const wasRevealed = card.classList.contains("revealed");
-        document.querySelectorAll(".card--photo.revealed").forEach(function (c) {
-            if (c !== card) c.classList.remove("revealed");
-        });
-        card.classList.toggle("revealed", !wasRevealed);
-    });
-});
-
-document.addEventListener("click", function (e) {
-    if (!e.target.closest(".card--photo")) {
-        document.querySelectorAll(".card--photo.revealed").forEach(function (c) {
-            c.classList.remove("revealed");
-        });
-    }
-});
 
 /* Decorative pinata-style botanical burst from the hero sticker.
    Reuses the site's leafColors palette so particles match the brand. */
