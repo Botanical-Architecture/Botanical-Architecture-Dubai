@@ -1,39 +1,36 @@
 const { test, expect } = require('@playwright/test');
 
+// Price + description for each of the 8 Design Scope tiers, verbatim from the
+// `data` object in script.js.
 const LEVELS = {
-  1: ['AED 2,000', 'One leaf, precisely placed.'],
-  2: ['AED 5,000', 'A second leaf joins it.'],
-  3: ['AED 10,000', 'A small plant takes shape.'],
-  4: ['AED 15,000', 'A pair of plants begin a dialogue.'],
-  5: ['AED 20,000', 'A grouping of plants, with first blooms.'],
-  6: ['AED 25,000', 'A fuller, richer grouping in bloom.'],
-  7: ['AED 35,000', 'One grand statement plant, in full colour.'],
-  8: ['AED 50,000+', 'Two grand statement plants, a complete installation.'],
+  1: ['AED 2,000', 'A hands-on botanical workshop, tailored to your group.'],
+  2: ['AED 5,000', 'A styled botanical activation for your event or brand moment.'],
+  3: ['AED 10,000', 'Your first living installation, designed for your space.'],
+  4: ['AED 15,000', 'A living scheme designed for your shop.'],
+  5: ['AED 20,000', 'A fuller shop scheme, in first bloom.'],
+  6: ['AED 25,000', 'Semi-permanent architectural planting, scoped per brief.'],
+  7: ['AED 35,000', 'One statement installation, with a maintenance retainer.'],
+  8: ['AED 50,000+', 'A complete installation for retail, F&B or hospitality.'],
 };
 
-// Mirrors the `plantConfig` table in index.html: how many potted plants are
-// drawn, how many leaves and blooms each plant gets, at every slider level.
-const PLANT_CONFIG = {
-  1: { plants: 1, leaves: 1, blooms: 0 },
-  2: { plants: 1, leaves: 2, blooms: 0 },
-  3: { plants: 1, leaves: 3, blooms: 1 },
-  4: { plants: 2, leaves: 3, blooms: 1 },
-  5: { plants: 3, leaves: 4, blooms: 2 },
-  6: { plants: 3, leaves: 5, blooms: 2 },
-  7: { plants: 1, leaves: 8, blooms: 3 },
-  8: { plants: 2, leaves: 8, blooms: 3 },
+// Exact canvas draw-call counts per tier for the current "abstract faceted
+// bloom" composition in script.js (facetConfig + drawFacetComposition). This
+// is a deterministic regression-lock: the composition uses a seeded PRNG and a
+// static per-tier facetConfig, so counts are fixed frame-to-frame. The model
+// is fills = 1 (faceted base) + facets*2 (two triangles per leaf facet) +
+// blooms*3 (three polygon rings per bloom); strokes = facets (one crease line
+// per facet) + blooms (one outline per bloom). Values below were measured by
+// wrapping CanvasRenderingContext2D.prototype.fill/stroke in a real browser.
+const DRAW_COUNTS = {
+  1: { fills: 7, strokes: 3 },
+  2: { fills: 14, strokes: 6 },
+  3: { fills: 18, strokes: 8 },
+  4: { fills: 25, strokes: 11 },
+  5: { fills: 31, strokes: 14 },
+  6: { fills: 40, strokes: 18 },
+  7: { fills: 49, strokes: 22 },
+  8: { fills: 60, strokes: 27 },
 };
-
-// Each plant draws: 1 pot fill + 1 stem stroke, plus per leaf (1 fill + 1
-// vein stroke) and per bloom (2 fills: outer + center).
-function expectedFills(level) {
-  const c = PLANT_CONFIG[level];
-  return c.plants * (1 + c.leaves + c.blooms * 2);
-}
-function expectedStrokes(level) {
-  const c = PLANT_CONFIG[level];
-  return c.plants * (1 + c.leaves);
-}
 
 test.beforeEach(async ({ page }) => {
   await page.addInitScript(() => {
@@ -60,17 +57,17 @@ test('slider attributes constrain input to the 8 defined levels', async ({ page 
   await expect(slider).toHaveAttribute('value', '1');
 });
 
-test('initial render shows level 1 as a single leaf, one plant, no blooms', async ({ page }) => {
+test('initial render draws the level 1 faceted composition', async ({ page }) => {
   await expect(page.locator('#title')).toHaveText(LEVELS[1][0]);
   await expect(page.locator('#desc')).toHaveText(LEVELS[1][1]);
-  expect(await page.evaluate(() => window.__strokeCount)).toBe(expectedStrokes(1));
-  expect(await page.evaluate(() => window.__fillCount)).toBe(expectedFills(1));
+  expect(await page.evaluate(() => window.__strokeCount)).toBe(DRAW_COUNTS[1].strokes);
+  expect(await page.evaluate(() => window.__fillCount)).toBe(DRAW_COUNTS[1].fills);
 });
 
 for (const [level, [price, description]] of Object.entries(LEVELS)) {
   const n = Number(level);
-  const c = PLANT_CONFIG[n];
-  test(`slider level ${level} shows "${price}" with ${c.plants} plant(s) of ${c.leaves} leaves and ${c.blooms} bloom(s) each`, async ({ page }) => {
+  const counts = DRAW_COUNTS[n];
+  test(`slider level ${level} shows "${price}" and draws ${counts.fills} fills / ${counts.strokes} strokes`, async ({ page }) => {
     await page.evaluate((v) => {
       window.__strokeCount = 0;
       window.__fillCount = 0;
@@ -81,8 +78,8 @@ for (const [level, [price, description]] of Object.entries(LEVELS)) {
 
     await expect(page.locator('#title')).toHaveText(price);
     await expect(page.locator('#desc')).toHaveText(description);
-    expect(await page.evaluate(() => window.__strokeCount)).toBe(expectedStrokes(n));
-    expect(await page.evaluate(() => window.__fillCount)).toBe(expectedFills(n));
+    expect(await page.evaluate(() => window.__strokeCount)).toBe(counts.strokes);
+    expect(await page.evaluate(() => window.__fillCount)).toBe(counts.fills);
   });
 }
 
