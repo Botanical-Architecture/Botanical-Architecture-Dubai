@@ -482,6 +482,7 @@ section {
     position: relative;
     z-index: 2;
     margin-top: 16px;
+    text-decoration: none;
     background: rgba(60, 74, 45, 0.1);
     border: 1px solid rgba(60, 74, 45, 0.3);
     color: var(--moss);
@@ -748,9 +749,11 @@ canvas {
 }
 
 .contact-card .cta {
+    display: inline-block;
     margin-top: 22px;
     background: var(--moss);
     color: var(--cream);
+    text-decoration: none;
     border: none;
     font-size: 12px;
     font-weight: 500;
@@ -772,198 +775,13 @@ canvas {
 
 .contact-card .direct:hover { opacity: 1; text-decoration: underline; }
 
-/* POPUP */
-.popup {
-    position: fixed;
-    bottom: 25px;
-    right: 25px;
-    display: none;
-    z-index: 9999;
-}
-
-.popup-inner {
-    width: 290px;
-    background: var(--moss);
-    color: var(--cream);
-    border-radius: 30px 10px 30px 10px;
-    padding: 18px 20px 22px;
-    box-shadow: 0 16px 40px rgba(38, 47, 26, 0.35);
-    text-align: center;
-    position: relative;
-    overflow: hidden;
-}
-
-.popup-inner .badge-watermark {
-    position: absolute;
-    top: -30px;
-    right: -40px;
-    width: 140px;
-    opacity: 0.25;
-    pointer-events: none;
-}
-
-.drag-handle {
-    width: 42px;
-    height: 5px;
-    background: rgba(246, 241, 227, 0.4);
-    border-radius: 999px;
-    margin: 0 auto 12px;
-    cursor: grab;
-    position: relative;
-    z-index: 2;
-    touch-action: none;
-}
-
-.drag-handle:active { cursor: grabbing; }
-
-.close-btn {
-    position: absolute;
-    top: 8px;
-    right: 10px;
-    background: none;
-    border: none;
-    font-size: 16px;
-    color: var(--cream);
-    cursor: pointer;
-    opacity: 0.6;
-    z-index: 2;
-}
-
+/* Section heading on the Contact card ("Ready to start?"). */
 .popup-title {
     font-family: 'Fraunces', serif;
     font-size: 17px;
     font-weight: 500;
     position: relative;
     z-index: 1;
-}
-
-.popup-sub {
-    font-size: 12px;
-    opacity: 0.75;
-    margin: 6px 0 14px;
-    position: relative;
-    z-index: 1;
-}
-
-.popup-step { position: relative; z-index: 1; }
-
-.popup textarea,
-.popup input[type="text"] {
-    width: 100%;
-    border: 1px solid rgba(246, 241, 227, 0.35);
-    border-radius: 12px;
-    padding: 10px 12px;
-    text-align: left;
-    background: rgba(246, 241, 227, 0.08);
-    outline: none;
-    font-family: 'Work Sans', sans-serif;
-    font-size: 13px;
-    color: var(--cream);
-    resize: none;
-}
-
-.popup textarea { height: 84px; }
-
-.popup textarea::placeholder,
-.popup input::placeholder { color: rgba(246, 241, 227, 0.55); }
-
-/* Replaces the removed default focus ring with a visible brand-gold cue. */
-.popup textarea:focus,
-.popup input[type="text"]:focus {
-    border-color: var(--mustard);
-    box-shadow: 0 0 0 1px var(--mustard);
-}
-
-/* Small tag above the proposal field, shown only when the popup was opened
-   from a specific Work card ("Re: RAIR Essential Oils"). */
-.popup-ref {
-    display: none;
-    background: var(--mustard);
-    color: var(--moss-deep);
-    font-size: 10px;
-    font-weight: 500;
-    letter-spacing: 0.5px;
-    text-transform: uppercase;
-    padding: 4px 11px;
-    border-radius: 999px;
-    margin-bottom: 12px;
-    position: relative;
-    z-index: 1;
-}
-
-/* Brief post-submit confirmation so a missing mail client isn't a dead end. */
-.popup-confirm {
-    display: none;
-    position: relative;
-    z-index: 1;
-    text-align: center;
-    padding: 8px 0;
-}
-
-.popup-confirm .popup-title { margin-bottom: 6px; }
-
-/* Screen-reader-only labels for the proposal / budget fields. */
-.visually-hidden {
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    padding: 0;
-    margin: -1px;
-    overflow: hidden;
-    clip: rect(0, 0, 0, 0);
-    white-space: nowrap;
-    border: 0;
-}
-
-.budget-chips {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 6px;
-    margin-top: 10px;
-}
-
-.budget-chip {
-    background: rgba(246, 241, 227, 0.12);
-    border: 1px solid rgba(246, 241, 227, 0.3);
-    color: var(--cream);
-    font-size: 10px;
-    letter-spacing: 0.3px;
-    padding: 5px 10px;
-    border-radius: 999px;
-    cursor: pointer;
-}
-
-.budget-chip.selected {
-    background: var(--mustard);
-    color: var(--moss-deep);
-    border-color: var(--mustard);
-}
-
-.popup .primary-btn {
-    margin-top: 14px;
-    background: var(--mustard);
-    color: var(--moss-deep);
-    border: none;
-    font-size: 12px;
-    font-weight: 500;
-    letter-spacing: 0.5px;
-    text-transform: uppercase;
-    padding: 10px 22px;
-    border-radius: 999px;
-    cursor: pointer;
-    width: 100%;
-}
-
-.popup .back-btn {
-    display: block;
-    margin: 10px auto 0;
-    background: none;
-    border: none;
-    color: var(--cream);
-    opacity: 0.6;
-    font-size: 11px;
-    cursor: pointer;
-    text-decoration: underline;
 }
 
 /* FOOTER — the dark-brand moment: deep moss ground, cream text, gold accents */
@@ -1093,7 +911,7 @@ footer .foot-copy {
             <span class="card-hint">Hover, focus or tap to view</span>
             <img class="card-photo" src="assets/work-terrarium-study.webp" alt="Hands assembling terrariums in large glass vessels with moss, soil and tools during a terrarium-building workshop.">
             <img class="deco-sticker-corner" src="assets/sticker-slow-steady.webp" alt="" aria-hidden="true" style="transform: rotate(6deg);">
-            <button type="button" class="enquire-btn" data-project="Terrarium Study">Enquire about the Terrarium Study →</button>
+            <a class="enquire-btn" href="https://wa.me/971523145576?text=Hi%21%20I%27m%20interested%20in%20the%20Terrarium%20Study%20project." target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation()">Enquire about the Terrarium Study →</a>
         </div>
         <div class="card card--photo" tabindex="0">
             <span class="tag">Light, sound, scent</span>
@@ -1101,7 +919,7 @@ footer .foot-copy {
             <p class="card-detail">An immersive activation at Esque Gallery, Dubai — biophilic architecture, light and scent.</p>
             <span class="card-hint">Hover, focus or tap to view</span>
             <img class="card-photo" src="assets/work-rair-installation.webp" alt="A tall cactus beside a lit candle and smoking incense-bowl centrepiece on stone plinths dressed with moss — the RAIR installation at Esque Gallery, Dubai.">
-            <button type="button" class="enquire-btn" data-project="RAIR Essential Oils">Enquire about RAIR Essential Oils →</button>
+            <a class="enquire-btn" href="https://wa.me/971523145576?text=Hi%21%20I%27m%20interested%20in%20the%20RAIR%20Essential%20Oils%20project." target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation()">Enquire about RAIR Essential Oils →</a>
         </div>
         <div class="card card--photo card--watermark" tabindex="0">
             <span class="tag">Fresh stems, new menu</span>
@@ -1110,7 +928,7 @@ footer .foot-copy {
             <span class="card-hint">Hover, focus or tap to view</span>
             <img class="card-photo" src="assets/work-vera-wellness.webp" alt="The Botanical Bar counter — a branded booth lined with buckets of fresh flowers and a florist arranging a bouquet behind it.">
             <img class="card-watermark" src="assets/watermark-vera-bar-sketch.webp" alt="" aria-hidden="true">
-            <button type="button" class="enquire-btn" data-project="Botanical Bar">Enquire about the Botanical Bar →</button>
+            <a class="enquire-btn" href="https://wa.me/971523145576?text=Hi%21%20I%27m%20interested%20in%20the%20Botanical%20Bar%20project." target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation()">Enquire about the Botanical Bar →</a>
         </div>
         <div class="card card--photo card--sticker" tabindex="0">
             <span class="tag">Grown on the table</span>
@@ -1118,7 +936,7 @@ footer .foot-copy {
             <p class="card-detail">An ongoing series of botanical tablescapes for private dining and events.</p>
             <span class="card-hint">Hover, focus or tap to view</span>
             <img class="card-photo" src="assets/work-tablescape.webp" alt="A tablescape of orange gerbera daisies, vine tomatoes, a red bell pepper and dill fronds arranged on a wood table — botanical table decor.">
-            <button type="button" class="enquire-btn" data-project="Tablescape Design">Enquire about Tablescape Design →</button>
+            <a class="enquire-btn" href="https://wa.me/971523145576?text=Hi%21%20I%27m%20interested%20in%20the%20Tablescape%20Design%20project." target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation()">Enquire about Tablescape Design →</a>
         </div>
         <div class="card card--photo card--sticker" tabindex="0">
             <span class="tag">Made to bloom</span>
@@ -1126,7 +944,7 @@ footer .foot-copy {
             <p class="card-detail">Bespoke work for private clients and spaces — inquire for your own.</p>
             <span class="card-hint">Hover, focus or tap to view</span>
             <img class="card-photo" src="assets/work-private-commission.webp" alt="A gallery installation — a tall arching feathery branch rising toward the ceiling above a moss-draped concrete plinth, with potted greenery and moss spreading across the white gallery floor.">
-            <button type="button" class="enquire-btn" data-project="Private Commissions">Enquire about Private Commissions →</button>
+            <a class="enquire-btn" href="https://wa.me/971523145576?text=Hi%21%20I%27m%20interested%20in%20the%20Private%20Commissions%20project." target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation()">Enquire about Private Commissions →</a>
         </div>
     </div>
 </section>
@@ -1153,31 +971,31 @@ footer .foot-copy {
             <h3>Living Installations</h3>
             <p>Architectural botanical design for retail, F&amp;B, hospitality and brand spaces.</p>
             <span class="price">From AED 10,000</span>
-            <button type="button" class="enquire-btn" data-project="Living Installations">Start with Living Installations →</button>
+            <a class="enquire-btn" href="https://wa.me/971523145576?text=Hi%21%20I%27d%20like%20to%20start%20with%20Living%20Installations." target="_blank" rel="noopener noreferrer">Start with Living Installations →</a>
         </div>
         <div class="service">
             <h3>Event Activations</h3>
             <p>Botanical Bar, Pot Your Own Plant, Pilates + Petals.</p>
             <span class="price">From AED 100 per guest</span>
-            <button type="button" class="enquire-btn" data-project="Event Activations">Plan an Event Activation →</button>
+            <a class="enquire-btn" href="https://wa.me/971523145576?text=Hi%21%20I%27d%20like%20to%20start%20with%20Event%20Activations." target="_blank" rel="noopener noreferrer">Plan an Event Activation →</a>
         </div>
         <div class="service">
             <h3>Workshops</h3>
             <p>Terrarium Building, Ikebana, Learn to Propagate.</p>
             <span class="price">From AED 200 per guest</span>
-            <button type="button" class="enquire-btn" data-project="Workshops">Book a Workshop →</button>
+            <a class="enquire-btn" href="https://wa.me/971523145576?text=Hi%21%20I%27d%20like%20to%20start%20with%20Workshops." target="_blank" rel="noopener noreferrer">Book a Workshop →</a>
         </div>
         <div class="service">
             <h3>Table-scapes</h3>
             <p>Weddings, intimate dinners, corporate meetings.</p>
             <span class="price">From AED 2,500</span>
-            <button type="button" class="enquire-btn" data-project="Table-scapes">Design a Table-scape →</button>
+            <a class="enquire-btn" href="https://wa.me/971523145576?text=Hi%21%20I%27d%20like%20to%20start%20with%20Table-scapes." target="_blank" rel="noopener noreferrer">Design a Table-scape →</a>
         </div>
         <div class="service">
             <h3>Gifting</h3>
             <p>Single-stem bouquets, branded test-tube cuttings.</p>
             <span class="price">From AED 30 per unit</span>
-            <button type="button" class="enquire-btn" data-project="Gifting">Ask about Gifting →</button>
+            <a class="enquire-btn" href="https://wa.me/971523145576?text=Hi%21%20I%27d%20like%20to%20start%20with%20Gifting." target="_blank" rel="noopener noreferrer">Ask about Gifting →</a>
         </div>
     </div>
 </section>
@@ -1212,7 +1030,7 @@ footer .foot-copy {
     </div>
     <div class="contact-card">
         <div class="popup-title" style="color: var(--moss-deep);">Ready to start?</div>
-        <button class="cta" id="contact-start-proposal">Start a Proposal</button>
+        <a class="cta" href="https://wa.me/971523145576?text=Hi%21%20I%27d%20like%20to%20know%20more%20about%20your%20installations." target="_blank" rel="noopener noreferrer">Start a Proposal</a>
         <a class="direct" href="mailto:botanical.dubai@gmail.com">botanical.dubai@gmail.com</a>
         <a class="direct" href="https://www.instagram.com/botanical.dubai" target="_blank" rel="noopener">@botanical.dubai</a>
     </div>
@@ -1229,221 +1047,7 @@ footer .foot-copy {
     <div class="foot-copy">© 2026 Botanical Architecture Dubai</div>
 </footer>
 
-<!-- POPUP -->
-<div id="popup" class="popup">
-
-    <div class="popup-inner">
-
-        <img class="badge-watermark" src="assets/badge-touchmoss.webp" alt="" aria-hidden="true">
-
-        <div class="drag-handle" id="popup-drag-handle" data-testid="popup-drag-handle" aria-hidden="true"></div>
-
-        <button class="close-btn" id="popup-close" data-testid="popup-close" onclick="closePopup()">×</button>
-
-        <!-- STEP 1: budget -->
-        <div class="popup-step" id="popup-step-1">
-            <div class="popup-ref" id="popup-ref" data-testid="popup-ref"></div>
-            <div class="popup-title">What's your estimated budget?</div>
-            <div class="popup-sub">This helps us propose the right installation and price</div>
-
-            <label for="budget" class="visually-hidden">Your estimated budget</label>
-            <input type="text" id="budget" placeholder="e.g. AED 20,000">
-
-            <div class="budget-chips" id="budget-chips"></div>
-
-            <button class="primary-btn" id="popup-next" data-testid="popup-next" onclick="nextStep()">Next</button>
-        </div>
-
-        <!-- STEP 2: proposal -->
-        <div class="popup-step" id="popup-step-2" style="display:none;">
-            <div class="popup-title">What's your proposal?</div>
-            <div class="popup-sub">Tell us about the space or vision you have in mind (optional)</div>
-
-            <label for="proposal" class="visually-hidden">Tell us about your project</label>
-            <textarea id="proposal" placeholder="e.g. A courtyard entrance with layered greenery..."></textarea>
-
-            <button class="primary-btn" id="popup-send" data-testid="popup-send" onclick="sendProposal()">Send</button>
-            <button class="back-btn" id="popup-back" data-testid="popup-back" onclick="prevStep()">Back</button>
-        </div>
-
-        <!-- CONFIRMATION: shown briefly after submit -->
-        <div class="popup-confirm" id="popup-confirm" data-testid="popup-confirm">
-            <div class="popup-title">Opening your email…</div>
-            <div class="popup-sub">If nothing opens, write to us at botanical.dubai@gmail.com</div>
-        </div>
-
-    </div>
-
-    <a id="mailto-link" href="#" style="display:none;" aria-hidden="true"></a>
-
-</div>
-
 <script>
-
-let popupTriggered = false;
-
-/* The Work item this enquiry is about, or "" for the generic triggers. */
-let currentProject = "";
-
-function showPopup() {
-    document.getElementById("popup").style.display = "block";
-}
-
-function closePopup() {
-    document.getElementById("popup").style.display = "none";
-}
-
-function resetPopup() {
-    document.getElementById("popup-step-1").style.display = "block";
-    document.getElementById("popup-step-2").style.display = "none";
-    document.getElementById("popup-confirm").style.display = "none";
-}
-
-/* Show/hide the "Re: <project>" tag above the proposal field. Passing a falsy
-   value (generic triggers) clears any prior reference. */
-function setProjectRef(project) {
-    currentProject = project || "";
-    const ref = document.getElementById("popup-ref");
-    if (currentProject) {
-        ref.textContent = "Re: " + currentProject;
-        ref.style.display = "inline-block";
-    } else {
-        ref.textContent = "";
-        ref.style.display = "none";
-    }
-}
-
-/* Open the shared popup pre-referenced to a specific Work card. */
-function openPopupForProject(project) {
-    resetPopup();
-    setProjectRef(project);
-    showPopup();
-}
-
-/* Show the proposal popup the first time someone actually engages with the
-   budget slider — that's a much stronger buying signal than a blind timer. */
-function triggerPopupFromSlider() {
-    if (popupTriggered) return;
-    popupTriggered = true;
-    resetPopup();
-    setProjectRef("");
-    showPopup();
-}
-
-document.getElementById("contact-start-proposal").addEventListener("click", () => {
-    resetPopup();
-    setProjectRef("");
-    showPopup();
-});
-
-/* Every Work card's "Enquire about this" control opens the shared popup with a
-   reference to that card. stopPropagation keeps a click on the photo cards from
-   also toggling their tap-to-reveal photo. */
-document.querySelectorAll(".enquire-btn").forEach(function (btn) {
-    btn.addEventListener("click", function (e) {
-        e.stopPropagation();
-        openPopupForProject(btn.getAttribute("data-project"));
-    });
-});
-
-function nextStep() {
-    /* Budget is required business information — block advancing to the
-       (optional) proposal step until it's provided (typed or chip-selected).
-       Alert wording matches sendProposal()'s budget check for consistency. */
-    const budget = document.getElementById("budget").value;
-    if (!budget) {
-        alert("Enter an estimated budget");
-        return;
-    }
-    document.getElementById("popup-step-1").style.display = "none";
-    document.getElementById("popup-step-2").style.display = "block";
-}
-
-function prevStep() {
-    document.getElementById("popup-step-1").style.display = "block";
-    document.getElementById("popup-step-2").style.display = "none";
-}
-
-function selectBudgetChip(value, chipEl) {
-    document.getElementById("budget").value = value;
-    document.querySelectorAll(".budget-chip").forEach((c) => c.classList.remove("selected"));
-    chipEl.classList.add("selected");
-}
-
-function buildMailto(proposal, budget, project) {
-    let subject = "Proposal Request — Botanical Architecture";
-    if (project) subject += " (Re: " + project + ")";
-    let body = "";
-    if (project) body += "Re: " + project + "\n\n";
-    body += "Estimated budget: " + budget;
-    if (proposal) body += "\n\nProposal:\n" + proposal;
-    return "mailto:botanical.dubai@gmail.com?subject=" + encodeURIComponent(subject) + "&body=" + encodeURIComponent(body);
-}
-
-function sendProposal() {
-    const budget = document.getElementById("budget").value;
-
-    if (!budget) {
-        alert("Enter an estimated budget");
-        return;
-    }
-
-    const proposal = document.getElementById("proposal").value;
-    const link = document.getElementById("mailto-link");
-    link.href = buildMailto(proposal, budget, currentProject);
-    link.click();
-
-    /* Brief confirmation so a missing mail client isn't a silent dead end. */
-    document.getElementById("popup-step-1").style.display = "none";
-    document.getElementById("popup-step-2").style.display = "none";
-    document.getElementById("popup-confirm").style.display = "block";
-    setTimeout(function () {
-        document.getElementById("popup").style.display = "none";
-    }, 2200);
-}
-
-/* Escape closes the popup while it's open (enhancement alongside close-btn). */
-document.addEventListener("keydown", function (e) {
-    if (e.key === "Escape" && document.getElementById("popup").style.display === "block") {
-        closePopup();
-    }
-});
-
-/* Let the popup be dragged anywhere in the viewport by its handle, so it
-   never has to be closed just because it's sitting on top of something the
-   visitor wants to read. */
-(function enableDrag() {
-    const popup = document.getElementById("popup");
-    const handle = document.getElementById("popup-drag-handle");
-    let dragging = false;
-    let offsetX = 0;
-    let offsetY = 0;
-
-    handle.addEventListener("pointerdown", (e) => {
-        dragging = true;
-        const rect = popup.getBoundingClientRect();
-        offsetX = e.clientX - rect.left;
-        offsetY = e.clientY - rect.top;
-        popup.style.left = rect.left + "px";
-        popup.style.top = rect.top + "px";
-        popup.style.right = "auto";
-        popup.style.bottom = "auto";
-        handle.setPointerCapture(e.pointerId);
-    });
-
-    handle.addEventListener("pointermove", (e) => {
-        if (!dragging) return;
-        const maxLeft = window.innerWidth - popup.offsetWidth;
-        const maxTop = window.innerHeight - popup.offsetHeight;
-        const newLeft = Math.max(0, Math.min(e.clientX - offsetX, maxLeft));
-        const newTop = Math.max(0, Math.min(e.clientY - offsetY, maxTop));
-        popup.style.left = newLeft + "px";
-        popup.style.top = newTop + "px";
-    });
-
-    handle.addEventListener("pointerup", () => { dragging = false; });
-    handle.addEventListener("pointercancel", () => { dragging = false; });
-})();
 
 /* SLIDER DATA */
 const data = {
@@ -1456,20 +1060,6 @@ const data = {
     7: ["AED 35,000", "One statement installation, with a maintenance retainer."],
     8: ["AED 50,000+", "A complete installation for retail, F&B or hospitality."]
 };
-
-/* populate popup budget chips from the same tier data */
-(function populateBudgetChips() {
-    const container = document.getElementById("budget-chips");
-    Object.keys(data).forEach((key) => {
-        const price = data[key][0];
-        const chip = document.createElement("button");
-        chip.type = "button";
-        chip.className = "budget-chip";
-        chip.textContent = price;
-        chip.addEventListener("click", () => selectBudgetChip(price, chip));
-        container.appendChild(chip);
-    });
-})();
 
 const slider = document.getElementById("slider");
 const title = document.getElementById("title");
@@ -1646,7 +1236,6 @@ slider.oninput = function () {
     desc.innerText = v[1];
 
     draw(this.value);
-    triggerPopupFromSlider();
 };
 
 /* NAV: reliable smooth-scroll + scroll-spy.
