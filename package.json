@@ -1,7 +1,7 @@
 {
   "name": "botanical-architecture-dubai",
   "version": "1.0.0",
-  "description": "Botanical Architecture Dubai — static site",
+  "description": "Botanical Architecture Dubai - static site",
   "private": true,
   "scripts": {
     "test": "playwright test"
