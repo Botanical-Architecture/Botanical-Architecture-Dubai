@@ -54,7 +54,7 @@ function sizeCanvas() {
 }
 
 /* Small deterministic PRNG (mulberry32) so each tier's facet jitter is
-   stable frame-to-frame — the composition must not reshuffle on every
+   stable frame-to-frame - the composition must not reshuffle on every
    redraw, and stable output keeps the tier screenshots reproducible. */
 function makeRng(seed) {
     let s = seed >>> 0;

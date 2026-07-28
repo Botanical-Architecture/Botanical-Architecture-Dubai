@@ -351,7 +351,7 @@ section {
     margin-top: 18px;
 }
 
-/* Private Commissions is a tall portrait shot (1259x1857) — owner wants the
+/* Private Commissions is a tall portrait shot (1259x1857) - owner wants the
    whole photo shown, no crop, accepting that this card renders taller than its
    siblings. Render at natural aspect ratio instead of the fixed 380px box. */
 .card .card-photo[src*="work-private-commission"] {
@@ -364,7 +364,7 @@ section {
    pinned into the bottom-right corner and bleeding off the edge (clipped by the
    card's overflow:hidden + rounded corner). isolation:isolate contains the
    negative z-index so the watermark always sits above the card background but
-   behind the in-flow text and the reveal photo — it is decorative and stays
+   behind the in-flow text and the reveal photo - it is decorative and stays
    visible at all times, unaffected by the hover/focus/tap reveal. */
 .card--watermark { isolation: isolate; }
 
@@ -443,7 +443,7 @@ footer .deco-sticker {
 
 /* Persistent corner accent tucked into a Work card. isolation:isolate lets the
    negative z-index sit ABOVE the card's own cream background but BEHIND the
-   in-flow text and the hover/tap reveal photo — so the sticker shows in the
+   in-flow text and the hover/tap reveal photo - so the sticker shows in the
    corner at rest, never covers the copy, and is quietly hidden behind the real
    photo when it pops up (no visual clash on reveal). */
 .card--sticker { isolation: isolate; }
@@ -464,7 +464,7 @@ footer .deco-sticker {
 /* Free-floating section accents flank centered headings / sit in side margins.
    On narrow (phone/tablet) screens their desktop positions/sizes would overlap
    the full-width text, so instead of hiding them we shrink each one and tuck it
-   into the open margin of its section — keeping the stickers "present" on
+   into the open margin of its section - keeping the stickers "present" on
    mobile without ever covering copy, buttons or one another. Inline styles
    hold the desktop values, so these mobile overrides need !important. The
    card-corner stickers are handled separately (clipped inside the card). */
@@ -691,7 +691,7 @@ canvas {
     z-index: 1;
 }
 
-/* FOOTER — the dark-brand moment: deep moss ground, cream text, gold accents */
+/* FOOTER - the dark-brand moment: deep moss ground, cream text, gold accents */
 footer {
     text-align: center;
     padding: 80px 10% 46px;
